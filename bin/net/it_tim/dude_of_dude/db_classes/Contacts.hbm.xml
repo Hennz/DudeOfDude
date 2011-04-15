@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 14 ???????? 2011 15:28:49 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="net.it_tim.dude_of_dude.db_classes.Contacts" table="contacts" schema="public">
+        <id name="contactId" type="int">
+            <column name="contact_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="users" class="net.it_tim.dude_of_dude.db_classes.Users" fetch="select">
+            <column name="user_id" />
+        </many-to-one>
+        <property name="contact" type="string">
+            <column name="contact" length="100" />
+        </property>
+        <set name="groupses" table="membership" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="contact_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="net.it_tim.dude_of_dude.db_classes.Groups">
+                <column name="group_id" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

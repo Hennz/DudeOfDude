@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="jars/activation.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/mail.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/lib/dsn.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/lib/imap.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/lib/mailapi.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/lib/pop3.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/lib/smtp.jar"/>
+	<classpathentry kind="lib" path="jars/postgresql-9.0-801.jdbc3.jar"/>
+	<classpathentry kind="lib" path="jars/lib/required/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="jars/lib/required/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="jars/lib/required/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="jars/lib/required/javassist-3.12.0.GA.jar"/>
+	<classpathentry kind="lib" path="jars/lib/required/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="jars/lib/required/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="jars/hibernate-testing.jar"/>
+	<classpathentry kind="lib" path="jars/hibernate3.jar"/>
+	<classpathentry kind="lib" path="jars/apache_log/commons-logging-1.1.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/apache_log/commons-logging-1.1.1-sources.jar"/>
+	<classpathentry kind="lib" path="jars/apache_log/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="jars/apache_log/commons-logging-adapters-1.1.1.jar"/>
+	<classpathentry kind="lib" path="jars/apache_log/commons-logging-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="jars/apache_log/commons-logging-tests.jar"/>
+	<classpathentry kind="lib" path="jars/lib/jpa/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
