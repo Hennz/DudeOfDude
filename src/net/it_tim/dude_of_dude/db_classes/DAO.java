@@ -1,4 +1,4 @@
-package net.it_tim.dude_of_dude;
+package net.it_tim.dude_of_dude.db_classes;
 
 import java.util.logging.Logger;
 
@@ -21,7 +21,7 @@ public class DAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Session getSession() {
+	public static Session getCurrentSession() {
 		Session session = (Session) DAO.session.get();
 		if (session == null) {
 			session = sessionFactory.openSession();
@@ -31,22 +31,22 @@ public class DAO {
 	}
 
 	protected void begin() {
-		getSession().beginTransaction();
+		getCurrentSession().beginTransaction();
 	}
 
 	protected void commit() {
-		getSession().getTransaction().commit();
+		getCurrentSession().getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
 	protected void rollback() {
 		try {
-			getSession().getTransaction().rollback();
+			getCurrentSession().getTransaction().rollback();
 		} catch (HibernateException e) {
 			System.out.println(e.getMessage());
 		}
 		try {
-			getSession().close();
+			getCurrentSession().close();
 		} catch (HibernateException e) {
 			System.out.println(e.getMessage());
 		}
@@ -55,7 +55,7 @@ public class DAO {
 
 	@SuppressWarnings("unchecked")
 	public static void close() {
-		getSession().close();
+		getCurrentSession().close();
 		DAO.session.set(null);
 	}
 }

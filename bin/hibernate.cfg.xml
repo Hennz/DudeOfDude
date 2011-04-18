@@ -11,7 +11,6 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
-        <property name="hibernate.show_sql">true</property>
         <mapping resource="net/it_tim/dude_of_dude/db_classes/Contacts.hbm.xml" />
         <mapping resource="net/it_tim/dude_of_dude/db_classes/Hosts.hbm.xml" />
         <mapping resource="net/it_tim/dude_of_dude/db_classes/Groups.hbm.xml" />

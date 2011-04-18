@@ -10,6 +10,11 @@ import java.util.Set;
  */
 public class Hosts implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private int hostId;
 	private String ipAdres;
 	private String description;

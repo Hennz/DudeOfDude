@@ -4,11 +4,11 @@ package net.it_tim.dude_of_dude.db_classes;
 
 import java.util.List;
 
-import net.it_tim.dude_of_dude.DAO;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.criterion.Restrictions;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -24,7 +24,7 @@ public class HostsHome extends DAO{
 		log.debug("persisting Hosts instance");
 		try {
 			begin();
-			getSession().persist(transientInstance);
+			getCurrentSession().persist(transientInstance);
 			commit();
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
@@ -38,7 +38,7 @@ public class HostsHome extends DAO{
 		log.debug("creating Hosts instance");
 		try {
 			begin();
-			getSession().save(host);
+			getCurrentSession().save(host);
 			commit();
 			log.debug("create successful");
 			return host;
@@ -53,7 +53,7 @@ public class HostsHome extends DAO{
 		log.debug("attaching dirty Hosts instance");
 		try {
 			begin();
-			getSession().saveOrUpdate(instance);
+			getCurrentSession().saveOrUpdate(instance);
 			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
@@ -63,11 +63,12 @@ public class HostsHome extends DAO{
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void attachClean(Hosts instance) {
 		log.debug("attaching clean Hosts instance");
 		try {
 			begin();
-			getSession().lock(instance, LockMode.NONE);
+			getCurrentSession().lock(instance, LockMode.NONE);
 			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
@@ -81,7 +82,7 @@ public class HostsHome extends DAO{
 		log.debug("deleting Hosts instance");
 		try {
 			begin();
-			getSession().delete(persistentInstance);
+			getCurrentSession().delete(persistentInstance);
 			commit();
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
@@ -95,7 +96,7 @@ public class HostsHome extends DAO{
 		log.debug("merging Hosts instance");
 		try {
 			begin();
-			Hosts result = (Hosts) getSession().merge(
+			Hosts result = (Hosts) getCurrentSession().merge(
 					detachedInstance);
 			commit();
 			log.debug("merge successful");
@@ -111,7 +112,7 @@ public class HostsHome extends DAO{
 		log.debug("getting Hosts instance with id: " + id);
 		try {
 			begin();
-			Hosts instance = (Hosts) getSession().get(
+			Hosts instance = (Hosts) getCurrentSession().get(
 					"net.it_tim.dude_of_dude.db_classes.Hosts", id);
 			commit();
 			if (instance == null) {
@@ -127,12 +128,13 @@ public class HostsHome extends DAO{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Hosts> findByExample(Hosts instance) {
 		log.debug("finding Hosts instance by example");
 		try {
 			begin();
 			List<Hosts> results = (List<Hosts>)
-					getSession().createCriteria(
+					getCurrentSession().createCriteria(
 							"net.it_tim.dude_of_dude.db_classes.Hosts").add(
 							create(instance)).list();
 			log.debug("find by example successful, result size: "
@@ -144,5 +146,29 @@ public class HostsHome extends DAO{
 			log.error("find by example failed", re);
 			throw re;
 		}
+	}
+	
+	public Hosts findByIp(String ipAddr) {
+		log.debug("finding Hosts instance by IP: " + ipAddr);
+		try {
+			Hosts instance  = (Hosts) 
+				getCurrentSession().createCriteria("net.it_tim.dude_of_dude.db_classes.Hosts")
+					.add(Restrictions.eq("ipAdres", ipAddr)).uniqueResult();
+			if (instance == null) {
+				log.debug("get successful, no instance found");
+			} else {
+				log.debug("get successful, instance found");
+			}
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Hosts> getAll() {
+		List<Hosts> host_list = (List<Hosts>) getCurrentSession().createCriteria("net.it_tim.dude_of_dude.db_classes.Hosts").list();
+		return host_list;
 	}
 }
