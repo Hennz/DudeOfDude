@@ -167,8 +167,8 @@ public class HostsHome extends DAO{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Hosts> getAll() {
-		List<Hosts> host_list = (List<Hosts>) getCurrentSession().createCriteria("net.it_tim.dude_of_dude.db_classes.Hosts").list();
+	public List getAll() {
+		List host_list = getCurrentSession().createQuery("from Hosts").list();
 		return host_list;
 	}
 }

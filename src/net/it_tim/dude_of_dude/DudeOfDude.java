@@ -1,7 +1,9 @@
 package net.it_tim.dude_of_dude;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
 import java.io.Console;
 import com.sun.security.auth.module.UnixSystem;
 import net.it_tim.dude_of_dude.db_classes.*;
@@ -24,7 +26,7 @@ public class DudeOfDude {
     	uid = unix_user.getUid();
     	if (uid != 0) {
             System.out.println("!!! Потрібні супер права !!!");
-            System.exit(-1);
+            //System.exit(-1);
     	}
 
     	try {
@@ -47,33 +49,19 @@ public class DudeOfDude {
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
 			System.out.println("!!! Системна консоль не доступна !!!");
-			System.exit(-1);
+			//System.exit(-1);
 		}
 
 
 		try {
 			HostsHome hh = new HostsHome();
 			
-			List<Hosts> host_list = hh.getAll();
-			
-			while (true) {
-			
-			for (Hosts host: host_list) {
+			List host_list = hh.getAll();
+
+			for (Hosts host: (List<Hosts>) host_list) {
 				PingThread ping_thread = new PingThread(host);
-				Thread thread = new Thread(ping_thread);
-				thread.start();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+				Timer timer = new Timer();
+				timer.schedule(ping_thread, 0, host.getIntervalMs());
 			}
 			/*
 			ping = new Ping("192.168.77.7", 1000);

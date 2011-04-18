@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class PingHistory implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int hostId;
 	private Hosts hosts;
 	private Date stamp;
