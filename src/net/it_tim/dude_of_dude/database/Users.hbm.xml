@@ -6,7 +6,9 @@
     <class name="net.it_tim.dude_of_dude.database.Users" table="users" schema="public">
         <id name="userId" type="int">
             <column name="user_id" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            <param name="sequence">users_user_id_seq</param>
+            </generator>
         </id>
         <property name="name" type="string">
             <column name="name" length="50" />

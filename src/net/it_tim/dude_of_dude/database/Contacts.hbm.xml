@@ -6,7 +6,9 @@
     <class name="net.it_tim.dude_of_dude.database.Contacts" table="contacts" schema="public">
         <id name="contactId" type="int">
             <column name="contact_id" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            <param name="sequence">contacts_contact_id_seq</param>
+            </generator>
         </id>
         <many-to-one name="users" class="net.it_tim.dude_of_dude.database.Users" fetch="select">
             <column name="user_id" />

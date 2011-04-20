@@ -8,13 +8,13 @@ public class Ping
 	private boolean status;
 	private InetAddress address;
 	
-	public Ping(String URL, int timeout) throws Exception {
+	public Ping(String URL, int timeout) throws IOException {
         try
         {
             address = InetAddress.getByName(URL);
             status = address.isReachable(timeout);
         } catch (IOException ex) {
-        	ex.printStackTrace();
+        	throw ex;
         }
     }
     

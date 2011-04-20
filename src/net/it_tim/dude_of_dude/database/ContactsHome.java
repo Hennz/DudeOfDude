@@ -3,11 +3,9 @@ package net.it_tim.dude_of_dude.database;
 // Generated 20 квіт 2011 10:24:31 by Hibernate Tools 3.3.0.GA
 
 import java.util.List;
-import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
-import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -15,27 +13,14 @@ import static org.hibernate.criterion.Example.create;
  * @see net.it_tim.dude_of_dude.database.Contacts
  * @author Hibernate Tools
  */
-public class ContactsHome {
+public class ContactsHome extends DAO {
 
 	private static final Log log = LogFactory.getLog(ContactsHome.class);
-
-	private final SessionFactory sessionFactory = getSessionFactory();
-
-	protected SessionFactory getSessionFactory() {
-		try {
-			return (SessionFactory) new InitialContext()
-					.lookup("SessionFactory");
-		} catch (Exception e) {
-			log.error("Could not locate SessionFactory in JNDI", e);
-			throw new IllegalStateException(
-					"Could not locate SessionFactory in JNDI");
-		}
-	}
 
 	public void persist(Contacts transientInstance) {
 		log.debug("persisting Contacts instance");
 		try {
-			sessionFactory.getCurrentSession().persist(transientInstance);
+			getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
@@ -46,7 +31,7 @@ public class ContactsHome {
 	public void attachDirty(Contacts instance) {
 		log.debug("attaching dirty Contacts instance");
 		try {
-			sessionFactory.getCurrentSession().saveOrUpdate(instance);
+			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -54,10 +39,11 @@ public class ContactsHome {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void attachClean(Contacts instance) {
 		log.debug("attaching clean Contacts instance");
 		try {
-			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
+			getCurrentSession().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -68,7 +54,7 @@ public class ContactsHome {
 	public void delete(Contacts persistentInstance) {
 		log.debug("deleting Contacts instance");
 		try {
-			sessionFactory.getCurrentSession().delete(persistentInstance);
+			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -79,7 +65,7 @@ public class ContactsHome {
 	public Contacts merge(Contacts detachedInstance) {
 		log.debug("merging Contacts instance");
 		try {
-			Contacts result = (Contacts) sessionFactory.getCurrentSession()
+			Contacts result = (Contacts) getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -92,7 +78,7 @@ public class ContactsHome {
 	public Contacts findById(int id) {
 		log.debug("getting Contacts instance with id: " + id);
 		try {
-			Contacts instance = (Contacts) sessionFactory.getCurrentSession()
+			Contacts instance = (Contacts) getCurrentSession()
 					.get("net.it_tim.dude_of_dude.database.Contacts", id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -106,11 +92,12 @@ public class ContactsHome {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Contacts> findByExample(Contacts instance) {
 		log.debug("finding Contacts instance by example");
 		try {
-			List<Contacts> results = (List<Contacts>) sessionFactory
-					.getCurrentSession().createCriteria(
+			List<Contacts> results = (List<Contacts>) 
+					getCurrentSession().createCriteria(
 							"net.it_tim.dude_of_dude.database.Contacts").add(
 							create(instance)).list();
 			log.debug("find by example successful, result size: "

@@ -10,6 +10,10 @@ import java.util.Set;
  */
 public class Groups implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int groupId;
 	private String description;
 	private Set<Contacts> contactses = new HashSet<Contacts>(0);

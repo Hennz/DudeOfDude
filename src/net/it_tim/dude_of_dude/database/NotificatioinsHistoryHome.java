@@ -3,11 +3,9 @@ package net.it_tim.dude_of_dude.database;
 // Generated 20 квіт 2011 10:24:31 by Hibernate Tools 3.3.0.GA
 
 import java.util.List;
-import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
-import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -15,28 +13,15 @@ import static org.hibernate.criterion.Example.create;
  * @see net.it_tim.dude_of_dude.database.NotificatioinsHistory
  * @author Hibernate Tools
  */
-public class NotificatioinsHistoryHome {
+public class NotificatioinsHistoryHome extends DAO {
 
 	private static final Log log = LogFactory
 			.getLog(NotificatioinsHistoryHome.class);
 
-	private final SessionFactory sessionFactory = getSessionFactory();
-
-	protected SessionFactory getSessionFactory() {
-		try {
-			return (SessionFactory) new InitialContext()
-					.lookup("SessionFactory");
-		} catch (Exception e) {
-			log.error("Could not locate SessionFactory in JNDI", e);
-			throw new IllegalStateException(
-					"Could not locate SessionFactory in JNDI");
-		}
-	}
-
 	public void persist(NotificatioinsHistory transientInstance) {
 		log.debug("persisting NotificatioinsHistory instance");
 		try {
-			sessionFactory.getCurrentSession().persist(transientInstance);
+			getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
@@ -47,7 +32,7 @@ public class NotificatioinsHistoryHome {
 	public void attachDirty(NotificatioinsHistory instance) {
 		log.debug("attaching dirty NotificatioinsHistory instance");
 		try {
-			sessionFactory.getCurrentSession().saveOrUpdate(instance);
+			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -55,10 +40,11 @@ public class NotificatioinsHistoryHome {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void attachClean(NotificatioinsHistory instance) {
 		log.debug("attaching clean NotificatioinsHistory instance");
 		try {
-			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
+			getCurrentSession().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -69,7 +55,7 @@ public class NotificatioinsHistoryHome {
 	public void delete(NotificatioinsHistory persistentInstance) {
 		log.debug("deleting NotificatioinsHistory instance");
 		try {
-			sessionFactory.getCurrentSession().delete(persistentInstance);
+			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -80,8 +66,8 @@ public class NotificatioinsHistoryHome {
 	public NotificatioinsHistory merge(NotificatioinsHistory detachedInstance) {
 		log.debug("merging NotificatioinsHistory instance");
 		try {
-			NotificatioinsHistory result = (NotificatioinsHistory) sessionFactory
-					.getCurrentSession().merge(detachedInstance);
+			NotificatioinsHistory result = (NotificatioinsHistory) 
+					getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -93,8 +79,8 @@ public class NotificatioinsHistoryHome {
 	public NotificatioinsHistory findById(int id) {
 		log.debug("getting NotificatioinsHistory instance with id: " + id);
 		try {
-			NotificatioinsHistory instance = (NotificatioinsHistory) sessionFactory
-					.getCurrentSession()
+			NotificatioinsHistory instance = (NotificatioinsHistory) 
+					getCurrentSession()
 					.get(
 							"net.it_tim.dude_of_dude.database.NotificatioinsHistory",
 							id);
@@ -110,12 +96,13 @@ public class NotificatioinsHistoryHome {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<NotificatioinsHistory> findByExample(
 			NotificatioinsHistory instance) {
 		log.debug("finding NotificatioinsHistory instance by example");
 		try {
-			List<NotificatioinsHistory> results = (List<NotificatioinsHistory>) sessionFactory
-					.getCurrentSession()
+			List<NotificatioinsHistory> results = (List<NotificatioinsHistory>) 
+					getCurrentSession()
 					.createCriteria(
 							"net.it_tim.dude_of_dude.database.NotificatioinsHistory")
 					.add(create(instance)).list();

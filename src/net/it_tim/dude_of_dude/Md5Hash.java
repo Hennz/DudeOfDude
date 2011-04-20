@@ -19,7 +19,6 @@ public class Md5Hash {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// Now we need to zero pad it if you actually want the full 32 chars.
 		while(hashtext.length() < 32 ){
 		  hashtext = "0"+hashtext;
 		}

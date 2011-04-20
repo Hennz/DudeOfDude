@@ -1,11 +1,10 @@
 package net.it_tim.dude_of_dude;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.TimerTask;
 
-import net.it_tim.dude_of_dude.db_classes.Hosts;
-import net.it_tim.dude_of_dude.db_classes.PingHistory;
-import net.it_tim.dude_of_dude.db_classes.PingHistoryHome;
+import net.it_tim.dude_of_dude.database.*;
 import net.it_tim.dude_of_dude.static_constants.Message;
 
 public class PingThread extends TimerTask {
@@ -20,7 +19,8 @@ public class PingThread extends TimerTask {
 	@Override
 	public synchronized void run() {
 			Ping ping;
-			PingHistory ph = new PingHistory(host);
+			PingHistory ph = new PingHistory();
+			ph.setHosts(host);
 			PingHistoryHome phh = new PingHistoryHome();
 			try {
 			long startTime = System.currentTimeMillis();
@@ -49,7 +49,7 @@ public class PingThread extends TimerTask {
 				ph.setTimeout(new Long(timeOut).intValue());
 				phh.log_ping(ph);
 			} 
-			} catch (Exception e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 	}

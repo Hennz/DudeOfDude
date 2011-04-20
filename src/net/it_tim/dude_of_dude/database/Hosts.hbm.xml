@@ -6,7 +6,9 @@
     <class name="net.it_tim.dude_of_dude.database.Hosts" table="hosts" schema="public">
         <id name="hostId" type="int">
             <column name="host_id" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            <param name="sequence">hosts_host_id_seq</param>
+            </generator>
         </id>
         <property name="ipAdres" type="string">
             <column name="ip_adres" length="15" />

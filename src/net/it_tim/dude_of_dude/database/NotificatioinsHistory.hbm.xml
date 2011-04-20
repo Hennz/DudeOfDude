@@ -6,7 +6,9 @@
     <class name="net.it_tim.dude_of_dude.database.NotificatioinsHistory" table="notificatioins_history" schema="public">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            <param name="sequence">notifications_history_id_seq</param>
+            </generator>
         </id>
         <many-to-one name="hosts" class="net.it_tim.dude_of_dude.database.Hosts" fetch="select">
             <column name="host_id" not-null="true" />

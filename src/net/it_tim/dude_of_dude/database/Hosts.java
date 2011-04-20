@@ -10,14 +10,17 @@ import java.util.Set;
  */
 public class Hosts implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int hostId;
 	private String ipAdres;
 	private String description;
 	private Long timeoutMs;
 	private Long intervalMs;
 	private Boolean toPing;
-	private Set<NotificatioinsHistory> notificatioinsHistories = new HashSet<NotificatioinsHistory>(
-			0);
+	private Set<NotificatioinsHistory> notificatioinsHistories = new HashSet<NotificatioinsHistory>(0);
 	private Set<Groups> groupses = new HashSet<Groups>(0);
 	private Set<PingHistory> pingHistories = new HashSet<PingHistory>(0);
 

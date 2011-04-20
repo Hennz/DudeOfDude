@@ -1,4 +1,4 @@
-package net.it_tim.dude_of_dude.db_classes;
+package net.it_tim.dude_of_dude.database;
 
 import java.util.logging.Logger;
 

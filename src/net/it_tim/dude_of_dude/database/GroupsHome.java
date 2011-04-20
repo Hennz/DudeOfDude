@@ -3,11 +3,9 @@ package net.it_tim.dude_of_dude.database;
 // Generated 20 квіт 2011 10:24:31 by Hibernate Tools 3.3.0.GA
 
 import java.util.List;
-import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
-import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -15,27 +13,14 @@ import static org.hibernate.criterion.Example.create;
  * @see net.it_tim.dude_of_dude.database.Groups
  * @author Hibernate Tools
  */
-public class GroupsHome {
+public class GroupsHome extends DAO {
 
 	private static final Log log = LogFactory.getLog(GroupsHome.class);
-
-	private final SessionFactory sessionFactory = getSessionFactory();
-
-	protected SessionFactory getSessionFactory() {
-		try {
-			return (SessionFactory) new InitialContext()
-					.lookup("SessionFactory");
-		} catch (Exception e) {
-			log.error("Could not locate SessionFactory in JNDI", e);
-			throw new IllegalStateException(
-					"Could not locate SessionFactory in JNDI");
-		}
-	}
 
 	public void persist(Groups transientInstance) {
 		log.debug("persisting Groups instance");
 		try {
-			sessionFactory.getCurrentSession().persist(transientInstance);
+			getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
@@ -46,7 +31,7 @@ public class GroupsHome {
 	public void attachDirty(Groups instance) {
 		log.debug("attaching dirty Groups instance");
 		try {
-			sessionFactory.getCurrentSession().saveOrUpdate(instance);
+			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -54,10 +39,11 @@ public class GroupsHome {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void attachClean(Groups instance) {
 		log.debug("attaching clean Groups instance");
 		try {
-			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
+			getCurrentSession().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -68,7 +54,7 @@ public class GroupsHome {
 	public void delete(Groups persistentInstance) {
 		log.debug("deleting Groups instance");
 		try {
-			sessionFactory.getCurrentSession().delete(persistentInstance);
+			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -79,7 +65,7 @@ public class GroupsHome {
 	public Groups merge(Groups detachedInstance) {
 		log.debug("merging Groups instance");
 		try {
-			Groups result = (Groups) sessionFactory.getCurrentSession().merge(
+			Groups result = (Groups) getCurrentSession().merge(
 					detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -92,7 +78,7 @@ public class GroupsHome {
 	public Groups findById(int id) {
 		log.debug("getting Groups instance with id: " + id);
 		try {
-			Groups instance = (Groups) sessionFactory.getCurrentSession().get(
+			Groups instance = (Groups) getCurrentSession().get(
 					"net.it_tim.dude_of_dude.database.Groups", id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -106,11 +92,12 @@ public class GroupsHome {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Groups> findByExample(Groups instance) {
 		log.debug("finding Groups instance by example");
 		try {
-			List<Groups> results = (List<Groups>) sessionFactory
-					.getCurrentSession().createCriteria(
+			List<Groups> results = (List<Groups>) 
+					getCurrentSession().createCriteria(
 							"net.it_tim.dude_of_dude.database.Groups").add(
 							create(instance)).list();
 			log.debug("find by example successful, result size: "
