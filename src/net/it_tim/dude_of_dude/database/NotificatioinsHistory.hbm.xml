@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 20 ???????? 2011 10:24:31 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="net.it_tim.dude_of_dude.database.NotificatioinsHistory" table="notificatioins_history" schema="public">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="hosts" class="net.it_tim.dude_of_dude.database.Hosts" fetch="select">
+            <column name="host_id" not-null="true" />
+        </many-to-one>
+        <property name="stamp" type="timestamp">
+            <column name="stamp" length="29" />
+        </property>
+        <property name="status" type="java.lang.Boolean">
+            <column name="status" />
+        </property>
+    </class>
+</hibernate-mapping>

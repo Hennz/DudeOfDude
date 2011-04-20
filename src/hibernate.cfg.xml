@@ -11,11 +11,11 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
-        <mapping resource="net/it_tim/dude_of_dude/db_classes/Groups.hbm.xml" />
-        <mapping resource="net/it_tim/dude_of_dude/db_classes/Hosts.hbm.xml" />
-        <mapping resource="net/it_tim/dude_of_dude/db_classes/Users.hbm.xml" />
-        <mapping resource="net/it_tim/dude_of_dude/db_classes/Contacts.hbm.xml" />
-        <mapping resource="net/it_tim/dude_of_dude/db_classes/NotificatioinsHistory.hbm.xml" />
-        <mapping resource="net/it_tim/dude_of_dude/db_classes/PingHistory.hbm.xml" />
+        <mapping resource="net/it_tim/dude_of_dude/database/PingHistory.hbm.xml" />
+        <mapping resource="net/it_tim/dude_of_dude/database/Contacts.hbm.xml" />
+        <mapping resource="net/it_tim/dude_of_dude/database/NotificatioinsHistory.hbm.xml" />
+        <mapping resource="net/it_tim/dude_of_dude/database/Groups.hbm.xml" />
+        <mapping resource="net/it_tim/dude_of_dude/database/Hosts.hbm.xml" />
+        <mapping resource="net/it_tim/dude_of_dude/database/Users.hbm.xml" />
     </session-factory>
 </hibernate-configuration>
