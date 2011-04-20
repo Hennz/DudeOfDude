@@ -6,10 +6,12 @@ import java.util.Timer;
 import java.io.Console;
 import com.sun.security.auth.module.UnixSystem;
 import net.it_tim.dude_of_dude.database.*;
+import net.it_tim.dude_of_dude.static_constants.Message;
 
 public class DudeOfDude {
 
 	private static long uid = -1;
+	private static Console console = System.console();
 	/**
 	 * @param args
 	 */
@@ -30,10 +32,8 @@ public class DudeOfDude {
     	}
 
     	try {
-			Console console = System.console();
-
-			String username = console.readLine("[%s]", "Логін:");
-			char[] passwd = console.readPassword("[%s]", "Пароль:");
+			String username = console.readLine("[%s] > [%s]", Message.getDateTime(), "Логін:");
+			char[] passwd = console.readPassword("[%s] > [%s]", Message.getDateTime(), "Пароль:");
 			
 			UsersHome usermanager = new UsersHome();
 			
@@ -89,6 +89,17 @@ public class DudeOfDude {
 			*/
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		
+		System.out.println("~~~ To quit enter \"quit\" and press enter ~~~");
+		while(true) {
+			String cmd = console.readLine();
+			if (cmd.equals("quit")) {
+				DAO.close();
+				System.exit(0);
+			} else {
+				System.out.println("~~~ unknown command ~~~");
+			}
 		}
 	}
 
