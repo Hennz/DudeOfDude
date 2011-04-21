@@ -23,12 +23,8 @@ public class PingThread extends TimerTask {
 	@Override
 	public synchronized void run() {
 			Ping ping;
-			
 			ph = phh.getLastState(host);
-			System.out.println(ph.getStatus());
-			System.out.println(ph.getStamp());
 			last_status = ph.getStatus();
-			
 			try {
 			long startTime = System.currentTimeMillis();
 
@@ -36,18 +32,20 @@ public class PingThread extends TimerTask {
 
 			Integer timeOut = new Long(System.currentTimeMillis() - startTime).intValue();
 			if (ping.isOnline()) {
-				formatedPrint(Message.SVC_UP, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
 				status = true;
 				log(new Boolean(status), timeOut);
 			} else {
-				formatedPrint(Message.SVC_DOWN, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
 				status = false;
 				log(new Boolean(status), timeOut);
 			} 
 			
 			if (status != last_status){
-				System.out.println(Message.COLOR_YELLOW + "Status has changed for host: " + Message.COLOR_RED + host.getDescription() + Message.COLOR_WHITE);
-				last_status = status;
+				if (status) {
+					formatedPrint(Message.SVC_UP, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
+				} else {
+					formatedPrint(Message.SVC_DOWN, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
+				}
+
 			}
 			
 			} catch (IOException e) {

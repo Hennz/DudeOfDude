@@ -24,12 +24,14 @@ public class DudeOfDude {
 			e.printStackTrace();
 		}
 		
-    	UnixSystem unix_user = new UnixSystem();
+		if (System.getProperty("os.name").equals("Linux")) {		
+		UnixSystem unix_user = new UnixSystem();
     	uid = unix_user.getUid();
     	if (uid != 0) {
     		coloredPrint(Message.COLOR_RED, "!!! Потрібні супер права !!!", Message.COLOR_WHITE);
             System.exit(-1);
     	}
+		}
 
     	try {
 			String username = console.readLine("[%s] > [%s]", Message.getDateTime(), "Логін:");
