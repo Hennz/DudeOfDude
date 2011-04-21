@@ -3,9 +3,12 @@ package net.it_tim.dude_of_dude.database;
 // Generated 20 квіт 2011 10:24:31 by Hibernate Tools 3.3.0.GA
 
 import java.util.List;
+
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -114,4 +117,5 @@ public class NotificatioinsHistoryHome extends DAO {
 			throw re;
 		}
 	}
+	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import static org.hibernate.criterion.Example.create;
@@ -130,5 +131,13 @@ public class PingHistoryHome extends DAO {
 			log.error("find by example failed", re);
 			throw re;
 		}
+	}
+	
+	public PingHistory getLastState( Hosts host ) {
+		Query query = getCurrentSession().createSQLQuery("SELECT * from ping_history where id = (SELECT max(id) from ping_history where host_id = :hostId)")
+		.addEntity(PingHistory.class)
+		.setParameter("hostId", host.getHostId());
+		PingHistory ph = (PingHistory) query.uniqueResult();
+		return ph;
 	}
 }

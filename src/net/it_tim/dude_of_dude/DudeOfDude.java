@@ -17,7 +17,7 @@ public class DudeOfDude {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		System.out.println("~~~ Перевірка умов запуску ~~~");
+		coloredPrint(Message.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Message.COLOR_WHITE);
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -27,7 +27,7 @@ public class DudeOfDude {
     	UnixSystem unix_user = new UnixSystem();
     	uid = unix_user.getUid();
     	if (uid != 0) {
-            System.out.println("!!! Потрібні супер права !!!");
+    		coloredPrint(Message.COLOR_RED, "!!! Потрібні супер права !!!", Message.COLOR_WHITE);
             System.exit(-1);
     	}
 
@@ -39,16 +39,16 @@ public class DudeOfDude {
 			
 			if (usermanager.checkPassword(username, new String(passwd))) {
 				Arrays.fill(passwd, ' ');
-				System.out.println(" ~~~ Вхід вдалий ~~~");
+				coloredPrint(Message.COLOR_GREEN, " ~~~ Вхід вдалий ~~~", Message.COLOR_WHITE);
 			} else {
 				Arrays.fill(passwd, ' ');
-				System.out.println(" ~~~ Щось зламалось ~~~");
+				coloredPrint(Message.COLOR_RED, " ~~~ Щось зламалось ~~~", Message.COLOR_WHITE);
 				System.exit(0);
 			}
 
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
-			System.out.println("!!! Системна консоль не доступна !!!");
+			coloredPrint(Message.COLOR_RED, "!!! Системна консоль не доступна !!!", Message.COLOR_WHITE);
 			System.exit(-1);
 		}
 
@@ -91,16 +91,24 @@ public class DudeOfDude {
 			e.printStackTrace();
 		}
 		
-		System.out.println("~~~ To quit enter \"quit\" and press enter ~~~");
+		coloredPrint(Message.COLOR_YELLOW, "~~~ To quit enter \"quit\" and press enter ~~~", Message.COLOR_WHITE);
 		while(true) {
 			String cmd = console.readLine();
 			if (cmd.equals("quit")) {
 				DAO.close();
 				System.exit(0);
 			} else {
-				System.out.println("~~~ unknown command ~~~");
+				coloredPrint(Message.COLOR_RED, "~~~ unknown command ~~~", Message.COLOR_WHITE);
 			}
 		}
+	}
+	
+	private static void coloredPrint(String ... args) {
+		StringBuilder message = new StringBuilder();
+		for (int i = 0; i < args.length; i++) {
+			message.append(args[i]);
+		}
+		System.out.println(message.toString());
 	}
 
 }
