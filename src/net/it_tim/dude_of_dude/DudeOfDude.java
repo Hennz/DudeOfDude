@@ -15,6 +15,7 @@ public class DudeOfDude {
 	/**
 	 * @param args
 	 */
+
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		coloredPrint(Message.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Message.COLOR_WHITE);

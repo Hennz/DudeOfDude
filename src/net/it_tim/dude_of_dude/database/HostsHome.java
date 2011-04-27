@@ -22,9 +22,12 @@ public class HostsHome extends DAO {
 	public void persist(Hosts transientInstance) {
 		log.debug("persisting Hosts instance");
 		try {
+			begin();
 			getCurrentSession().persist(transientInstance);
+			commit();
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("persist failed", re);
 			throw re;
 		}
@@ -33,21 +36,41 @@ public class HostsHome extends DAO {
 	public void attachDirty(Hosts instance) {
 		log.debug("attaching dirty Hosts instance");
 		try {
+			begin();
 			getCurrentSession().saveOrUpdate(instance);
+			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("attach failed", re);
 			throw re;
 		}
 	}
 
+	public void update(Hosts instance) {
+		log.debug("updating dirty Hosts instance");
+		try {
+			begin();
+			getCurrentSession().update(instance);
+			commit();
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			rollback();
+			log.error("update failed", re);
+			throw re;
+		}
+	}
+	
 	@SuppressWarnings("deprecation")
 	public void attachClean(Hosts instance) {
 		log.debug("attaching clean Hosts instance");
 		try {
+			begin();
 			getCurrentSession().lock(instance, LockMode.NONE);
+			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("attach failed", re);
 			throw re;
 		}
@@ -56,9 +79,12 @@ public class HostsHome extends DAO {
 	public void delete(Hosts persistentInstance) {
 		log.debug("deleting Hosts instance");
 		try {
+			begin();
 			getCurrentSession().delete(persistentInstance);
+			commit();
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("delete failed", re);
 			throw re;
 		}
@@ -131,7 +157,11 @@ public class HostsHome extends DAO {
 	
 	@SuppressWarnings("unchecked")
 	public List getAll() {
-		List host_list = getCurrentSession().createQuery("from Hosts").list();
-		return host_list;
+		try {
+			List host_list = getCurrentSession().createQuery("from Hosts order by ipAdres asc").list();
+			return host_list;
+		} catch (RuntimeException re) {
+			return null;
+		}
 	}
 }

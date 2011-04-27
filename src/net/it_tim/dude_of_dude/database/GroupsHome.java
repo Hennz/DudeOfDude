@@ -20,9 +20,12 @@ public class GroupsHome extends DAO {
 	public void persist(Groups transientInstance) {
 		log.debug("persisting Groups instance");
 		try {
+			begin();
 			getCurrentSession().persist(transientInstance);
+			commit();
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("persist failed", re);
 			throw re;
 		}
@@ -31,9 +34,12 @@ public class GroupsHome extends DAO {
 	public void attachDirty(Groups instance) {
 		log.debug("attaching dirty Groups instance");
 		try {
+			begin();
 			getCurrentSession().saveOrUpdate(instance);
+			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("attach failed", re);
 			throw re;
 		}
@@ -43,20 +49,40 @@ public class GroupsHome extends DAO {
 	public void attachClean(Groups instance) {
 		log.debug("attaching clean Groups instance");
 		try {
+			begin();
 			getCurrentSession().lock(instance, LockMode.NONE);
+			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("attach failed", re);
 			throw re;
 		}
 	}
 
+	public void update(Groups instance) {
+		log.debug("updating dirty Groups instance");
+		try {
+			begin();
+			getCurrentSession().update(instance);
+			commit();
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			rollback();
+			log.error("update failed", re);
+			throw re;
+		}
+	}
+	
 	public void delete(Groups persistentInstance) {
 		log.debug("deleting Groups instance");
 		try {
+			begin();
 			getCurrentSession().delete(persistentInstance);
+			commit();
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("delete failed", re);
 			throw re;
 		}
@@ -106,6 +132,19 @@ public class GroupsHome extends DAO {
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List getAll() {
+		try {
+			begin();
+			List group_list = getCurrentSession().createQuery("from Groups order by description asc").list();
+			commit();
+			return group_list;
+		} catch (RuntimeException re) {
+			rollback();
+			return null;
 		}
 	}
 }

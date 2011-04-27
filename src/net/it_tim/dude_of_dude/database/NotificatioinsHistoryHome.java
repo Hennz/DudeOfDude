@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.Session;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -118,4 +119,20 @@ public class NotificatioinsHistoryHome extends DAO {
 		}
 	}
 	
+	public void notificate(NotificatioinsHistory transientInstance) {
+		log.debug("persisting NotificatioinsHistory instance");
+		try {
+			begin();
+			Session sesion = getCurrentSession();
+			sesion.save(transientInstance);
+			sesion.flush();
+			sesion.clear();
+			commit();
+			log.debug("persist successful");
+		} catch (RuntimeException re) {
+			rollback();
+			log.error("persist failed", re);
+			throw re;
+		}
+	}
 }

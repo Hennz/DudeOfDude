@@ -118,10 +118,8 @@ public class UsersHome extends DAO {
 		.add(Restrictions.eq("login", login)).uniqueResult();
 		
 		String currHash = new Md5Hash(password).toString();
-		if (currHash.equals(user.getPassword())) {
-			return true;
-		} else {
-			return false;
-		}
+		try {
+		if (currHash.equals(user.getPassword())) { return true; } else { return false; }
+		} catch (Exception ex) { return false; }
 	}
 }

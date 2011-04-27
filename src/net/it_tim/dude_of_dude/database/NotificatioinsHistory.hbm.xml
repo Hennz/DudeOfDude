@@ -7,7 +7,7 @@
         <id name="id" type="int">
             <column name="id" />
             <generator class="sequence">
-            <param name="sequence">notifications_history_id_seq</param>
+            <param name="sequence">notificatioins_history_id_seq</param>
             </generator>
         </id>
         <many-to-one name="hosts" class="net.it_tim.dude_of_dude.database.Hosts" fetch="select">

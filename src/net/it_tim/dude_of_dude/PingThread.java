@@ -12,7 +12,7 @@ public class PingThread extends TimerTask {
 	private Hosts host;
 	private boolean status = false;
 	private PingHistoryHome phh = new PingHistoryHome();
-	private PingHistory ph = new PingHistory();
+	private PingHistory pinghistory = new PingHistory();
 	private boolean last_status = false;
 	
 	public PingThread(Hosts host) {
@@ -22,34 +22,11 @@ public class PingThread extends TimerTask {
 		
 	@Override
 	public synchronized void run() {
-			Ping ping;
-			ph = phh.getLastState(host);
-			last_status = ph.getStatus();
-			try {
-			long startTime = System.currentTimeMillis();
-
-			ping = new Ping(host.getIpAdres(), host.getTimeoutMs().intValue());
-
-			Integer timeOut = new Long(System.currentTimeMillis() - startTime).intValue();
-			if (ping.isOnline()) {
-				status = true;
-				log(new Boolean(status), timeOut);
-			} else {
-				status = false;
-				log(new Boolean(status), timeOut);
-			} 
+			pinghistory = phh.getLastState(host);
+			last_status = pinghistory.getStatus();
 			
-			if (status != last_status){
-				if (status) {
-					formatedPrint(Message.SVC_UP, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
-				} else {
-					formatedPrint(Message.SVC_DOWN, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
-				}
-
-			}
-			
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (host.getToPing()) {
+				ping();
 			}
 	}
 	
@@ -64,7 +41,40 @@ public class PingThread extends TimerTask {
 		phh.log_ping(ph);
 	}
 	
+	private void notificate(Boolean status) {
+		NotificatioinsHistory nh = new NotificatioinsHistory();
+		nh.setHosts(host);
+		NotificatioinsHistoryHome nhh = new NotificatioinsHistoryHome();
+		
+		nh.setStatus(status);
+		nh.setStamp(new Date());
+		nhh.notificate(nh);
+	}
+	
 	private void formatedPrint(String format, Object... args) {
 		System.out.println(String.format(format, args));
+	}
+	
+	private void ping() {
+	try {
+		long startTime = System.currentTimeMillis();
+		Ping ping = new Ping(host.getIpAdres(), host.getTimeoutMs().intValue());
+		Integer timeOut = new Long(System.currentTimeMillis() - startTime).intValue();
+
+		status = ping.isOnline();
+		log(new Boolean(status), timeOut);
+
+		if (status != last_status){
+			if (status) {
+				formatedPrint(Message.SVC_UP, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
+				notificate(status);
+			} else {
+				formatedPrint(Message.SVC_DOWN, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
+				notificate(status);
+			}
+		}
+		
+	} catch (IOException e) {e.printStackTrace(); System.exit(0);}
+	
 	}
 }
