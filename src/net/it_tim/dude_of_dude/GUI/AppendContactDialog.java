@@ -12,6 +12,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 
 import net.it_tim.dude_of_dude.GUI.table_staf.ContactsComboBoxModel;
+import net.it_tim.dude_of_dude.GUI.table_staf.ContactsInGroupsListModel;
+import net.it_tim.dude_of_dude.database.Contacts;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -22,11 +25,14 @@ public class AppendContactDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	
+	private final ContactsComboBoxModel contactsModel = new ContactsComboBoxModel();
+	private JComboBox comboBox;
+	private ContactsInGroupsListModel cin;
 	/**
 	 * Create the dialog.
 	 */
-	public AppendContactDialog() {
+	public AppendContactDialog(ContactsInGroupsListModel contactsInGroupsListModel) {
+		cin = contactsInGroupsListModel;
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -40,7 +46,7 @@ public class AppendContactDialog extends JDialog {
 			contentPanel.add(lblNewLabel, BorderLayout.NORTH);
 		}
 		{
-			JComboBox comboBox = new JComboBox(new ContactsComboBoxModel());
+			comboBox = new JComboBox(contactsModel);
 			comboBox.setSelectedIndex(0);
 			contentPanel.add(comboBox, BorderLayout.CENTER);
 		}
@@ -50,6 +56,16 @@ public class AppendContactDialog extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Object tmp_contact = new Object();
+						tmp_contact = contactsModel.getSelectedConact(comboBox.getSelectedIndex());
+						System.out.println(tmp_contact);
+						if (tmp_contact instanceof Contacts)
+							cin.addContact((Contacts) tmp_contact);
+						dispose();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

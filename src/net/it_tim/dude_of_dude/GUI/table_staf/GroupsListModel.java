@@ -37,7 +37,7 @@ public class GroupsListModel extends AbstractListModel {
 	public Groups getGroup(int index) {
 		if (group_list == null)
 			return new Groups();
-		return group_list.get(index);
+		return gh.findById(group_list.get(index).getGroupId());
 	}
 	
 	public void addGroup(String description) {

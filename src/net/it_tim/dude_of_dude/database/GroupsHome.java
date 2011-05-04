@@ -91,11 +91,14 @@ public class GroupsHome extends DAO {
 	public Groups merge(Groups detachedInstance) {
 		log.debug("merging Groups instance");
 		try {
+			begin();
 			Groups result = (Groups) getCurrentSession().merge(
 					detachedInstance);
+			commit();
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("merge failed", re);
 			throw re;
 		}
@@ -104,8 +107,11 @@ public class GroupsHome extends DAO {
 	public Groups findById(int id) {
 		log.debug("getting Groups instance with id: " + id);
 		try {
+			begin();
 			Groups instance = (Groups) getCurrentSession().get(
 					"net.it_tim.dude_of_dude.database.Groups", id);
+			getCurrentSession().refresh(instance);
+			commit();
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -113,6 +119,7 @@ public class GroupsHome extends DAO {
 			}
 			return instance;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("get failed", re);
 			throw re;
 		}
@@ -122,14 +129,17 @@ public class GroupsHome extends DAO {
 	public List<Groups> findByExample(Groups instance) {
 		log.debug("finding Groups instance by example");
 		try {
+			begin();
 			List<Groups> results = (List<Groups>) 
 					getCurrentSession().createCriteria(
 							"net.it_tim.dude_of_dude.database.Groups").add(
 							create(instance)).list();
+			commit();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("find by example failed", re);
 			throw re;
 		}

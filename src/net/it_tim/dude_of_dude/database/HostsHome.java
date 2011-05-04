@@ -106,8 +106,10 @@ public class HostsHome extends DAO {
 	public Hosts findById(int id) {
 		log.debug("getting Hosts instance with id: " + id);
 		try {
+			begin();
 			Hosts instance = (Hosts) getCurrentSession().get(
 					"net.it_tim.dude_of_dude.database.Hosts", id);
+			commit();
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -115,6 +117,7 @@ public class HostsHome extends DAO {
 			}
 			return instance;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("get failed", re);
 			throw re;
 		}
@@ -124,14 +127,17 @@ public class HostsHome extends DAO {
 	public List<Hosts> findByExample(Hosts instance) {
 		log.debug("finding Hosts instance by example");
 		try {
+			begin();
 			List<Hosts> results = (List<Hosts>) 
 					getCurrentSession().createCriteria(
 							"net.it_tim.dude_of_dude.database.Hosts").add(
 							create(instance)).list();
+			commit();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("find by example failed", re);
 			throw re;
 		}
@@ -140,9 +146,11 @@ public class HostsHome extends DAO {
 	public Hosts findByIp(String ipAddr) {
 		log.debug("finding Hosts instance by IP: " + ipAddr);
 		try {
+			begin();
 			Hosts instance  = (Hosts) 
 				getCurrentSession().createCriteria("net.it_tim.dude_of_dude.database.Hosts")
 					.add(Restrictions.eq("ipAdres", ipAddr)).uniqueResult();
+			commit();
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -150,6 +158,7 @@ public class HostsHome extends DAO {
 			}
 			return instance;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("get failed", re);
 			throw re;
 		}
@@ -158,9 +167,12 @@ public class HostsHome extends DAO {
 	@SuppressWarnings("unchecked")
 	public List getAll() {
 		try {
+			begin();
 			List host_list = getCurrentSession().createQuery("from Hosts order by ipAdres asc").list();
+			commit();
 			return host_list;
 		} catch (RuntimeException re) {
+			rollback();
 			return null;
 		}
 	}

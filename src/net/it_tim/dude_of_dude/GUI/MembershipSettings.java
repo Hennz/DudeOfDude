@@ -13,6 +13,8 @@ import net.it_tim.dude_of_dude.GUI.table_staf.GroupsListModel;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
@@ -62,7 +64,7 @@ public class MembershipSettings extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int index = list.getSelectedIndex();
 				if (index != -1) {
-					cin = new ContactsInGroupsListModel(grListModel.getGroup(index).getContactses()); 
+					cin = new ContactsInGroupsListModel(grListModel.getGroup(index)); 
 					list_2.setModel(cin);
 				}
 			}
@@ -83,9 +85,8 @@ public class MembershipSettings extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int index = list.getSelectedIndex();
 				if (index != -1) {
-					AppendContactDialog appendDialog = new AppendContactDialog();
+					AppendContactDialog appendDialog = new AppendContactDialog(cin);
 					appendDialog.setVisible(true);
-					appendDialog.setModal(true);	
 					grListModel.getGroup(index).getContactses(); 
 
 				}
@@ -95,10 +96,25 @@ public class MembershipSettings extends JFrame {
 		toolBar.add(btnAdd);
 		
 		btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = list_2.getSelectedIndex();
+				if (index != -1) {
+					int opt = JOptionPane.showConfirmDialog(null, "<html><font color=red>~~~ Really delete? ~~~</font>" +
+							"<br>" + list_2.getSelectedValue().toString() +
+							"</html>", "WARNING", JOptionPane.YES_NO_OPTION);
+					if (opt != 1)
+						cin.removeContact(index);
+				} else {
+					JOptionPane.showMessageDialog(null, "~~~ You should select at least one entry ~~~");
+				}
+			}
+		});
 		btnDelete.setIcon(new ImageIcon(MembershipSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Remove_Square.png")));
 		toolBar.add(btnDelete);
 		
-		list_2 = new JList();
+		cin = new ContactsInGroupsListModel(grListModel.getGroup(0));
+		list_2 = new JList(cin);
 		list_2.setSelectedIndex(0);
 		list_2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list_2.setBackground(new Color(255, 255, 255));

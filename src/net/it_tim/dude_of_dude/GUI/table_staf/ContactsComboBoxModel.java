@@ -40,5 +40,9 @@ public class ContactsComboBoxModel extends AbstractListModel implements
 	public int getSize() {
 		return contact_list.size();
 	}
+	
+	public Contacts getSelectedConact(int arg0) {
+		return contact_list.get(arg0);
+	}
 
 }
