@@ -12,9 +12,10 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
-import net.it_tim.dude_of_dude.GUI.table_staf.groupsListModel;
+import net.it_tim.dude_of_dude.GUI.table_staf.GroupsListModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class GroupsSettings extends JFrame {
 
@@ -23,12 +24,14 @@ public class GroupsSettings extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private groupsListModel grListModel = new groupsListModel();
+	private GroupsListModel grListModel = new GroupsListModel();
 	private JList list;
 	/**
 	 * Create the frame.
 	 */
 	public GroupsSettings() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
+		setTitle("Group Management");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -51,7 +54,8 @@ public class GroupsSettings extends JFrame {
 		btnAddGroup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String groupName = JOptionPane.showInputDialog("Enter group name: ");
-				grListModel.addGroup(groupName);
+				if (groupName != null)
+					grListModel.addGroup(groupName);
 			}
 		});
 		btnAddGroup.setIcon(new ImageIcon(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Note-Add.png")));
@@ -62,7 +66,11 @@ public class GroupsSettings extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = list.getSelectedIndex();
 				if (index != -1) {
-					grListModel.removeGroup(index);
+					int opt = JOptionPane.showConfirmDialog(null, "<html><font color=red>~~~ Really delete? ~~~</font>" +
+							"<br>" + list.getSelectedValue().toString() +
+							"</html>", "WARNING", JOptionPane.YES_NO_OPTION);
+					if (opt != 1)
+						grListModel.removeGroup(index);
 				} else {
 					JOptionPane.showMessageDialog(null, "~~~ You should select at least one entry ~~~");
 				}
@@ -76,8 +84,9 @@ public class GroupsSettings extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = list.getSelectedIndex();
 				if (index != -1) {
-					String groupName = JOptionPane.showInputDialog("Enter new group name: ");
-					grListModel.updateGroup(index, groupName);
+					String groupName = JOptionPane.showInputDialog(null, "Enter new group name: ", list.getSelectedValue().toString());
+					if (groupName != null)
+						grListModel.updateGroup(index, groupName);
 				} else {
 					JOptionPane.showMessageDialog(null, "~~~ You should select at least one entry ~~~");
 				}

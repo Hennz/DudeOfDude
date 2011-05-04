@@ -7,11 +7,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-public class boolCellRenderer extends JCheckBox implements TableCellRenderer {
+public class BoolCellRenderer extends JCheckBox implements TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 
-	public boolCellRenderer() {
+	public BoolCellRenderer() {
 		super();
 	}
 	

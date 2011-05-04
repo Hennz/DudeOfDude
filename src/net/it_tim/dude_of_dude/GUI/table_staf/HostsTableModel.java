@@ -7,7 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import net.it_tim.dude_of_dude.database.Hosts;
 import net.it_tim.dude_of_dude.database.HostsHome;
 
-public class hostsTM extends AbstractTableModel {
+public class HostsTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -22,12 +22,12 @@ public class hostsTM extends AbstractTableModel {
     Long.class, Long.class, Boolean.class };
 
 	@SuppressWarnings("unchecked")
-	public hostsTM() {
+	public HostsTableModel() {
 		hh = new HostsHome();
 		list = hh.getAll();
 	}
 	
-    public hostsTM(List<Hosts> aList){
+    public HostsTableModel(List<Hosts> aList){
         list = aList;
     }
 	

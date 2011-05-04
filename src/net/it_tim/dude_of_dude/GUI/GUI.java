@@ -7,7 +7,7 @@ public class GUI {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public GUI() {
 		try {
 			Login dialog = new Login();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

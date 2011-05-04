@@ -13,21 +13,24 @@ import java.awt.BorderLayout;
 
 import javax.swing.JTable;
 
-import net.it_tim.dude_of_dude.GUI.table_staf.boolCellRenderer;
-import net.it_tim.dude_of_dude.GUI.table_staf.hostsTM;
+import net.it_tim.dude_of_dude.GUI.table_staf.BoolCellRenderer;
+import net.it_tim.dude_of_dude.GUI.table_staf.HostsTableModel;
 
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class mainWnd extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private hostsTM hostTableModel = new hostsTM();
+	private HostsTableModel hostTableModel = new HostsTableModel();
 	/**
 	 * Create the frame.
 	 */
 	public mainWnd() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
+		setTitle("Dude of Dude");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 300, 640, 320);
 		setLocationRelativeTo(null);
@@ -84,6 +87,12 @@ public class mainWnd extends JFrame {
 		toolBar.add(btnNewButton_1);
 		
 		JButton btnMembership = new JButton("Membership");
+		btnMembership.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MembershipSettings members = new MembershipSettings();
+				members.setVisible(true);
+			}
+		});
 		btnMembership.setIcon(new ImageIcon(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Emporium/Home.png")));
 		toolBar.add(btnMembership);
 		
@@ -102,9 +111,15 @@ public class mainWnd extends JFrame {
 		toolBar.add(btnContacts);
 		
 		JButton btnUsers = new JButton("Users");
+		btnUsers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UserManagement usrMng = new UserManagement();
+				usrMng.setVisible(true);
+			}
+		});
 		btnUsers.setIcon(new ImageIcon(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Clipped ID.png")));
 		toolBar.add(btnUsers);
-		table.setDefaultRenderer(Boolean.class, new boolCellRenderer());
+		table.setDefaultRenderer(Boolean.class, new BoolCellRenderer());
 		table.getColumnModel().getColumn(4).setMinWidth(30);
 		table.getColumnModel().getColumn(4).setMaxWidth(30);
 		table.getColumnModel().getColumn(4).setPreferredWidth(30);

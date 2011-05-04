@@ -7,14 +7,14 @@ import javax.swing.AbstractListModel;
 import net.it_tim.dude_of_dude.database.Groups;
 import net.it_tim.dude_of_dude.database.GroupsHome;
 
-public class groupsListModel extends AbstractListModel {
+public class GroupsListModel extends AbstractListModel {
 	private static final long serialVersionUID = 1L;
 
 	private GroupsHome gh;
 	private List<Groups> group_list;
 	
 	@SuppressWarnings("unchecked")
-	public groupsListModel() {
+	public GroupsListModel() {
 		gh = new GroupsHome();
 		group_list = gh.getAll();
 
@@ -32,6 +32,12 @@ public class groupsListModel extends AbstractListModel {
 		if (group_list == null)
 			return 0;
 		return group_list.size();
+	}
+	
+	public Groups getGroup(int index) {
+		if (group_list == null)
+			return new Groups();
+		return group_list.get(index);
 	}
 	
 	public void addGroup(String description) {

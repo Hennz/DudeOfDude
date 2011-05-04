@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Timer;
 import java.io.Console;
 import com.sun.security.auth.module.UnixSystem;
+
+import net.it_tim.dude_of_dude.GUI.GUI;
 import net.it_tim.dude_of_dude.database.*;
 import net.it_tim.dude_of_dude.static_constants.Message;
 
@@ -19,6 +21,12 @@ public class DudeOfDude {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		coloredPrint(Message.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Message.COLOR_WHITE);
+		if (args.length > 0 && args[0].equals("-g")) {
+			coloredPrint(Message.COLOR_GREEN, "~~~ Запуск графічного інтерфейсу ~~~", Message.COLOR_WHITE);
+			new GUI();
+			return;
+		}
+		
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

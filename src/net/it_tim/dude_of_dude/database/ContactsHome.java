@@ -20,9 +20,12 @@ public class ContactsHome extends DAO {
 	public void persist(Contacts transientInstance) {
 		log.debug("persisting Contacts instance");
 		try {
+			begin();
 			getCurrentSession().persist(transientInstance);
+			commit();
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("persist failed", re);
 			throw re;
 		}
@@ -31,9 +34,12 @@ public class ContactsHome extends DAO {
 	public void attachDirty(Contacts instance) {
 		log.debug("attaching dirty Contacts instance");
 		try {
+			begin();
 			getCurrentSession().saveOrUpdate(instance);
+			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("attach failed", re);
 			throw re;
 		}
@@ -43,9 +49,12 @@ public class ContactsHome extends DAO {
 	public void attachClean(Contacts instance) {
 		log.debug("attaching clean Contacts instance");
 		try {
+			begin();
 			getCurrentSession().lock(instance, LockMode.NONE);
+			commit();
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("attach failed", re);
 			throw re;
 		}
@@ -54,9 +63,12 @@ public class ContactsHome extends DAO {
 	public void delete(Contacts persistentInstance) {
 		log.debug("deleting Contacts instance");
 		try {
+			begin();
 			getCurrentSession().delete(persistentInstance);
+			commit();
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("delete failed", re);
 			throw re;
 		}
@@ -65,11 +77,14 @@ public class ContactsHome extends DAO {
 	public Contacts merge(Contacts detachedInstance) {
 		log.debug("merging Contacts instance");
 		try {
+			begin();
 			Contacts result = (Contacts) getCurrentSession()
 					.merge(detachedInstance);
+			commit();
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("merge failed", re);
 			throw re;
 		}
@@ -78,8 +93,10 @@ public class ContactsHome extends DAO {
 	public Contacts findById(int id) {
 		log.debug("getting Contacts instance with id: " + id);
 		try {
+			begin();
 			Contacts instance = (Contacts) getCurrentSession()
 					.get("net.it_tim.dude_of_dude.database.Contacts", id);
+			commit();
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -87,6 +104,7 @@ public class ContactsHome extends DAO {
 			}
 			return instance;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("get failed", re);
 			throw re;
 		}
@@ -96,16 +114,32 @@ public class ContactsHome extends DAO {
 	public List<Contacts> findByExample(Contacts instance) {
 		log.debug("finding Contacts instance by example");
 		try {
+			begin();
 			List<Contacts> results = (List<Contacts>) 
 					getCurrentSession().createCriteria(
 							"net.it_tim.dude_of_dude.database.Contacts").add(
 							create(instance)).list();
+			commit();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
 		} catch (RuntimeException re) {
+			rollback();
 			log.error("find by example failed", re);
 			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List getAll() {
+		try {
+			begin();
+			List contact_list = getCurrentSession().createQuery("from Contacts").list();
+			commit();
+			return contact_list;
+		} catch (RuntimeException re) {
+			rollback();
+			return null;
 		}
 	}
 }
