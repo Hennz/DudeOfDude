@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JSplitPane;
 import javax.swing.JList;
 
-import net.it_tim.dude_of_dude.GUI.table_staf.ContactsInGroupsListModel;
+import net.it_tim.dude_of_dude.GUI.table_staf.ContactsListModel;
 import net.it_tim.dude_of_dude.GUI.table_staf.GroupsListModel;
 
 import java.awt.event.MouseAdapter;
@@ -22,6 +22,9 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
+import java.awt.Toolkit;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class MembershipSettings extends JFrame {
 
@@ -31,20 +34,24 @@ public class MembershipSettings extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private GroupsListModel grListModel = new GroupsListModel();
-	//private Groups group = (Groups) null;
 	private JList list;
 	private JPanel panel;
 	private JToolBar toolBar;
 	private JButton btnAdd;
 	private JButton btnDelete;
 	private JList list_2;
-	private ContactsInGroupsListModel cin;
+	private ContactsListModel cin;
+	private JScrollPane scrollPane;
+	private JButton btnClose;
+	private JScrollPane scrollPane_1;
 	/**
 	 * Create the frame.
 	 */
 	public MembershipSettings() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MembershipSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Clipped ID.png")));
+		setTitle("Membership Settings");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 600, 300);
 		setLocationRelativeTo(null);
 		
 		contentPane = new JPanel();
@@ -64,12 +71,14 @@ public class MembershipSettings extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int index = list.getSelectedIndex();
 				if (index != -1) {
-					cin = new ContactsInGroupsListModel(grListModel.getGroup(index)); 
+					cin = new ContactsListModel(grListModel.getGroup(index)); 
 					list_2.setModel(cin);
 				}
 			}
 		});
-		splitPane.setLeftComponent(list);
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setViewportView(list);
+		splitPane.setLeftComponent(scrollPane_1);
 
 		panel = new JPanel();
 		
@@ -81,6 +90,7 @@ public class MembershipSettings extends JFrame {
 		panel.add(toolBar, BorderLayout.NORTH);
 		
 		btnAdd = new JButton("Add");
+		btnAdd.setMnemonic('A');
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = list.getSelectedIndex();
@@ -96,6 +106,7 @@ public class MembershipSettings extends JFrame {
 		toolBar.add(btnAdd);
 		
 		btnDelete = new JButton("Delete");
+		btnDelete.setMnemonic('R');
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = list_2.getSelectedIndex();
@@ -104,7 +115,7 @@ public class MembershipSettings extends JFrame {
 							"<br>" + list_2.getSelectedValue().toString() +
 							"</html>", "WARNING", JOptionPane.YES_NO_OPTION);
 					if (opt != 1)
-						cin.removeContact(index);
+						cin.removeContactFromGroup(index);
 				} else {
 					JOptionPane.showMessageDialog(null, "~~~ You should select at least one entry ~~~");
 				}
@@ -113,13 +124,26 @@ public class MembershipSettings extends JFrame {
 		btnDelete.setIcon(new ImageIcon(MembershipSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Remove_Square.png")));
 		toolBar.add(btnDelete);
 		
-		cin = new ContactsInGroupsListModel(grListModel.getGroup(0));
+		btnClose = new JButton("Close");
+		btnClose.setMnemonic('C');
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnClose.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnClose.setIcon(new ImageIcon(MembershipSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Close.png")));
+		toolBar.add(btnClose);
+		
+		cin = new ContactsListModel(grListModel.getGroup(0));
+		
 		list_2 = new JList(cin);
 		list_2.setSelectedIndex(0);
 		list_2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list_2.setBackground(new Color(255, 255, 255));
-		panel.add(list_2, BorderLayout.CENTER);
-
+		scrollPane = new JScrollPane();
+		panel.add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setViewportView(list_2);
 		
 	}
 

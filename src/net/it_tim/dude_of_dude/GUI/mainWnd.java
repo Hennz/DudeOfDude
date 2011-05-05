@@ -20,6 +20,10 @@ import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.awt.Dimension;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class mainWnd extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -29,6 +33,7 @@ public class mainWnd extends JFrame {
 	 * Create the frame.
 	 */
 	public mainWnd() {
+		setMinimumSize(new Dimension(640, 320));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
 		setTitle("Dude of Dude");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,15 +44,69 @@ public class mainWnd extends JFrame {
 		setJMenuBar(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
+		mnFile.setMnemonic('F');
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
 		mnFile.add(mntmExit);
+		
+		JMenu mnTools = new JMenu("Tools");
+		mnTools.setMnemonic('T');
+		menuBar.add(mnTools);
+		
+		JMenuItem mntmNotifications = new JMenuItem("Notifications");
+		mntmNotifications.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mntmNotifications.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+		mnTools.add(mntmNotifications);
+		
+		JMenuItem mntmMembership = new JMenuItem("Membership");
+		mntmMembership.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MembershipSettings members = new MembershipSettings();
+				members.setVisible(true);
+			}
+		});
+		mntmMembership.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
+		mnTools.add(mntmMembership);
+		
+		JMenuItem mntmGroups = new JMenuItem("Groups");
+		mntmGroups.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GroupsSettings grSet = new GroupsSettings();
+				grSet.setVisible(true);
+			}
+		});
+		mntmGroups.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
+		mnTools.add(mntmGroups);
+		
+		JMenuItem mntmContacts = new JMenuItem("Contacts");
+		mntmContacts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ContactsSettings contactsSettings = new ContactsSettings();
+				contactsSettings.setVisible(true);
+			}
+		});
+		mntmContacts.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+		mnTools.add(mntmContacts);
+		
+		JMenuItem mntmUsers = new JMenuItem("Users");
+		mntmUsers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserManagement usrMng = new UserManagement();
+				usrMng.setVisible(true);
+			}
+		});
+		mntmUsers.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_MASK));
+		mnTools.add(mntmUsers);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -61,6 +120,7 @@ public class mainWnd extends JFrame {
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 		
 		JButton btnNewButton = new JButton("Add");
+		btnNewButton.setMnemonic('A');
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				hostTableModel.addRow();
@@ -70,6 +130,7 @@ public class mainWnd extends JFrame {
 		toolBar.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Delete");
+		btnNewButton_1.setMnemonic('D');
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int selected = table.getSelectedRow();
@@ -87,16 +148,23 @@ public class mainWnd extends JFrame {
 		toolBar.add(btnNewButton_1);
 		
 		JButton btnMembership = new JButton("Membership");
+		btnMembership.setMnemonic('M');
 		btnMembership.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MembershipSettings members = new MembershipSettings();
 				members.setVisible(true);
 			}
 		});
+		
+		JButton btnNotifications = new JButton("Notifications");
+		btnNotifications.setMnemonic('N');
+		btnNotifications.setIcon(new ImageIcon(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
+		toolBar.add(btnNotifications);
 		btnMembership.setIcon(new ImageIcon(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Emporium/Home.png")));
 		toolBar.add(btnMembership);
 		
 		JButton btnGroups = new JButton("Groups");
+		btnGroups.setMnemonic('G');
 		btnGroups.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				GroupsSettings grSet = new GroupsSettings();
@@ -107,10 +175,18 @@ public class mainWnd extends JFrame {
 		toolBar.add(btnGroups);
 		
 		JButton btnContacts = new JButton("Contacts");
+		btnContacts.setMnemonic('C');
+		btnContacts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ContactsSettings contactsSettings = new ContactsSettings();
+				contactsSettings.setVisible(true);
+			}
+		});
 		btnContacts.setIcon(new ImageIcon(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Mail/Send.png")));
 		toolBar.add(btnContacts);
 		
 		JButton btnUsers = new JButton("Users");
+		btnUsers.setMnemonic('U');
 		btnUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				UserManagement usrMng = new UserManagement();

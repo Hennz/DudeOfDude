@@ -115,6 +115,7 @@ public class UsersHome extends DAO {
 			begin();
 			Users instance = (Users) getCurrentSession().get(
 					"net.it_tim.dude_of_dude.database.Users", id);
+			getCurrentSession().refresh(instance);
 			commit();
 			if (instance == null) {
 				log.debug("get successful, no instance found");

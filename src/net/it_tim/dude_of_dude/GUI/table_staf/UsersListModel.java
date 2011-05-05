@@ -62,6 +62,6 @@ public class UsersListModel extends AbstractListModel {
 	public Users getUser(int index) {
 		if (user_list == null)
 			return new Users();
-		return user_list.get(index);
+		return uh.findById(user_list.get(index).getUserId());
 	}
 }

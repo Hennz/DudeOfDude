@@ -8,7 +8,7 @@ import com.sun.security.auth.module.UnixSystem;
 
 import net.it_tim.dude_of_dude.GUI.GUI;
 import net.it_tim.dude_of_dude.database.*;
-import net.it_tim.dude_of_dude.static_constants.Message;
+import net.it_tim.dude_of_dude.static_constants.Tools;
 
 public class DudeOfDude {
 
@@ -20,9 +20,9 @@ public class DudeOfDude {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		coloredPrint(Message.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Message.COLOR_WHITE);
+		coloredPrint(Tools.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Tools.COLOR_WHITE);
 		if (args.length > 0 && args[0].equals("-g")) {
-			coloredPrint(Message.COLOR_GREEN, "~~~ Запуск графічного інтерфейсу ~~~", Message.COLOR_WHITE);
+			coloredPrint(Tools.COLOR_GREEN, "~~~ Запуск графічного інтерфейсу ~~~", Tools.COLOR_WHITE);
 			new GUI();
 			return;
 		}
@@ -37,29 +37,29 @@ public class DudeOfDude {
 		UnixSystem unix_user = new UnixSystem();
     	uid = unix_user.getUid();
     	if (uid != 0) {
-    		coloredPrint(Message.COLOR_RED, "!!! Потрібні супер права !!!", Message.COLOR_WHITE);
+    		coloredPrint(Tools.COLOR_RED, "!!! Потрібні супер права !!!", Tools.COLOR_WHITE);
             System.exit(-1);
     	}
 		}
 
     	try {
-			String username = console.readLine("[%s] > [%s]", Message.getDateTime(), "Логін:");
-			char[] passwd = console.readPassword("[%s] > [%s]", Message.getDateTime(), "Пароль:");
+			String username = console.readLine("[%s] > [%s]", Tools.getDateTime(), "Логін:");
+			char[] passwd = console.readPassword("[%s] > [%s]", Tools.getDateTime(), "Пароль:");
 			
 			UsersHome usermanager = new UsersHome();
 			
 			if (usermanager.checkPassword(username, new String(passwd))) {
 				Arrays.fill(passwd, ' ');
-				coloredPrint(Message.COLOR_GREEN, " ~~~ Вхід вдалий ~~~", Message.COLOR_WHITE);
+				coloredPrint(Tools.COLOR_GREEN, " ~~~ Вхід вдалий ~~~", Tools.COLOR_WHITE);
 			} else {
 				Arrays.fill(passwd, ' ');
-				coloredPrint(Message.COLOR_RED, " ~~~ Щось зламалось ~~~", Message.COLOR_WHITE);
+				coloredPrint(Tools.COLOR_RED, " ~~~ Щось зламалось ~~~", Tools.COLOR_WHITE);
 				System.exit(0);
 			}
 
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
-			coloredPrint(Message.COLOR_RED, "!!! Системна консоль не доступна !!!", Message.COLOR_WHITE);
+			coloredPrint(Tools.COLOR_RED, "!!! Системна консоль не доступна !!!", Tools.COLOR_WHITE);
 			System.exit(-1);
 		}
 
@@ -102,14 +102,14 @@ public class DudeOfDude {
 			e.printStackTrace();
 		}
 		
-		coloredPrint(Message.COLOR_YELLOW, "~~~ To quit enter \"quit\" and press enter ~~~", Message.COLOR_WHITE);
+		coloredPrint(Tools.COLOR_YELLOW, "~~~ To quit enter \"quit\" and press enter ~~~", Tools.COLOR_WHITE);
 		while(true) {
 			String cmd = console.readLine();
 			if (cmd.equals("quit")) {
 				DAO.close();
 				System.exit(0);
 			} else {
-				coloredPrint(Message.COLOR_RED, "~~~ unknown command ~~~", Message.COLOR_WHITE);
+				coloredPrint(Tools.COLOR_RED, "~~~ unknown command ~~~", Tools.COLOR_WHITE);
 			}
 		}
 	}

@@ -126,7 +126,7 @@ public class UserManagement extends JDialog {
 		lblNewLabel.setBounds(14, 16, 39, 15);
 		
 		loginField = new JTextField();
-		loginField.setBounds(14, 37, 114, 19);
+		loginField.setBounds(14, 37, 114, 24);
 		loginField.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
@@ -136,14 +136,14 @@ public class UserManagement extends JDialog {
 		lblName.setBounds(14, 62, 40, 15);
 		
 		nameField = new JTextField();
-		nameField.setBounds(14, 83, 114, 19);
+		nameField.setBounds(14, 83, 114, 24);
 		nameField.setColumns(10);
 		
 		JLabel lblSurname = new JLabel("Surname");
 		lblSurname.setBounds(146, 62, 63, 15);
 		
 		surnameField = new JTextField();
-		surnameField.setBounds(146, 83, 103, 19);
+		surnameField.setBounds(146, 83, 103, 24);
 		surnameField.setColumns(10);
 		
 		JLabel lblComment = new JLabel("Comment");
@@ -187,7 +187,7 @@ public class UserManagement extends JDialog {
 		
 		passwordField = new JPasswordField();
 		passwordField.setForeground(Color.RED);
-		passwordField.setBounds(146, 37, 103, 19);
+		passwordField.setBounds(146, 37, 103, 24);
 		panel_1.add(passwordField);
 		panel_1.add(btnOk);
 		panel_1.add(btnCancel);
@@ -201,7 +201,7 @@ public class UserManagement extends JDialog {
 		panel_1.add(surnameField);
 		
 		textField = new JTextField();
-		textField.setBounds(14, 135, 235, 19);
+		textField.setBounds(14, 135, 235, 24);
 		panel_1.add(textField);
 		textField.setColumns(10);
 	}

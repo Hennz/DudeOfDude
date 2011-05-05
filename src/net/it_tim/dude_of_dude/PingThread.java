@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.TimerTask;
 
 import net.it_tim.dude_of_dude.database.*;
-import net.it_tim.dude_of_dude.static_constants.Message;
+import net.it_tim.dude_of_dude.static_constants.Tools;
 
 public class PingThread extends TimerTask {
 
@@ -66,10 +66,10 @@ public class PingThread extends TimerTask {
 
 		if (status != last_status){
 			if (status) {
-				formatedPrint(Message.SVC_UP, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
+				formatedPrint(Tools.SVC_UP, host.getDescription(), host.getIpAdres(), timeOut, Tools.getDateTime());
 				notificate(status);
 			} else {
-				formatedPrint(Message.SVC_DOWN, host.getDescription(), host.getIpAdres(), timeOut, Message.getDateTime());
+				formatedPrint(Tools.SVC_DOWN, host.getDescription(), host.getIpAdres(), timeOut, Tools.getDateTime());
 				notificate(status);
 			}
 		}

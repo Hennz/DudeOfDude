@@ -95,6 +95,15 @@ public class GroupsSettings extends JFrame {
 		btnModifyGroup.setIcon(new ImageIcon(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Pencil.png")));
 		toolBar.add(btnModifyGroup);
 		
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnClose.setIcon(new ImageIcon(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Close.png")));
+		toolBar.add(btnClose);
+		
 
 	}
 

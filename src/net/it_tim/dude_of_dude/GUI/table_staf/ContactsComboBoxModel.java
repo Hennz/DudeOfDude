@@ -33,7 +33,7 @@ public class ContactsComboBoxModel extends AbstractListModel implements
 
 	@Override
 	public Object getElementAt(int arg0) {
-		return contact_list.get(arg0).getContact();
+		return contact_list.get(arg0).getContact() + " - " + contact_list.get(arg0).getUsers().getLogin();
 	}
 
 	@Override

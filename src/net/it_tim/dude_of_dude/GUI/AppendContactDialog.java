@@ -12,11 +12,12 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 
 import net.it_tim.dude_of_dude.GUI.table_staf.ContactsComboBoxModel;
-import net.it_tim.dude_of_dude.GUI.table_staf.ContactsInGroupsListModel;
+import net.it_tim.dude_of_dude.GUI.table_staf.ContactsListModel;
 import net.it_tim.dude_of_dude.database.Contacts;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class AppendContactDialog extends JDialog {
 
@@ -27,11 +28,14 @@ public class AppendContactDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private final ContactsComboBoxModel contactsModel = new ContactsComboBoxModel();
 	private JComboBox comboBox;
-	private ContactsInGroupsListModel cin;
+	private ContactsListModel cin;
 	/**
 	 * Create the dialog.
 	 */
-	public AppendContactDialog(ContactsInGroupsListModel contactsInGroupsListModel) {
+	public AppendContactDialog(ContactsListModel contactsInGroupsListModel) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AppendContactDialog.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
+		setTitle("Select contact");
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		cin = contactsInGroupsListModel;
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
@@ -60,9 +64,8 @@ public class AppendContactDialog extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Object tmp_contact = new Object();
 						tmp_contact = contactsModel.getSelectedConact(comboBox.getSelectedIndex());
-						System.out.println(tmp_contact);
 						if (tmp_contact instanceof Contacts)
-							cin.addContact((Contacts) tmp_contact);
+							cin.addContactToGroup((Contacts) tmp_contact);
 						dispose();
 					}
 				});

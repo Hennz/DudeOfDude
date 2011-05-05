@@ -1,6 +1,6 @@
 package net.it_tim.dude_of_dude.GUI.table_staf;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JCheckBox;
@@ -23,11 +23,13 @@ public class BoolCellRenderer extends JCheckBox implements TableCellRenderer {
 		}
 		
 		if (value instanceof Boolean) {
+			/*
 			if (((Boolean) value).booleanValue()) {
 				setBackground(new Color(0, 255, 0));
 			} else {
 				setBackground(new Color(255, 0, 0));
 			}
+			*/
 
 			setSelected(((Boolean) value).booleanValue());
 		} else {
