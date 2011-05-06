@@ -28,4 +28,12 @@ public final class Tools {
 		return matcher.matches();
 
 	}
+
+	public static void coloredPrint(String ... args) {
+		StringBuilder message = new StringBuilder();
+		for (int i = 0; i < args.length; i++) {
+			message.append(args[i]);
+		}
+		System.out.println(message.toString());
+	}
 }

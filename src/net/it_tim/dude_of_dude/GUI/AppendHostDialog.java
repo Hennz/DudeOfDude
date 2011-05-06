@@ -11,33 +11,33 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 
-import net.it_tim.dude_of_dude.GUI.table_staf.ContactsComboBoxModel;
-import net.it_tim.dude_of_dude.GUI.table_staf.ContactsListModel;
-import net.it_tim.dude_of_dude.database.Contacts;
+import net.it_tim.dude_of_dude.GUI.table_staf.HostsComboBoxModel;
+import net.it_tim.dude_of_dude.GUI.table_staf.HostsListModel;
+import net.it_tim.dude_of_dude.database.Hosts;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-public class AppendContactDialog extends JDialog {
+public class AppendHostDialog extends JDialog {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private final ContactsComboBoxModel contactsModel;
+	private HostsComboBoxModel hostsModel;
 	private JComboBox comboBox;
-	private ContactsListModel cin;
+	private HostsListModel hlm;
 	/**
 	 * Create the dialog.
 	 */
-	public AppendContactDialog(ContactsListModel contactsInGroupsListModel) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AppendContactDialog.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
-		setTitle("Select contact");
+	public AppendHostDialog(HostsListModel hostsInGroupsListModel) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AppendHostDialog.class.getResource("/net/it_tim/dude_of_dude/icons/Emporium/Home.png")));
+		setTitle("Select host");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		contactsModel = new ContactsComboBoxModel();
-		cin = contactsInGroupsListModel;
+		hostsModel = new HostsComboBoxModel();
+		hlm = hostsInGroupsListModel;
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -45,13 +45,13 @@ public class AppendContactDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
-			JLabel lblNewLabel = new JLabel("Select contact to append:");
+			JLabel lblNewLabel = new JLabel("Select host:");
 			lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 			lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			contentPanel.add(lblNewLabel, BorderLayout.NORTH);
 		}
 		{
-			comboBox = new JComboBox(contactsModel);
+			comboBox = new JComboBox(hostsModel);
 			comboBox.setSelectedIndex(0);
 			contentPanel.add(comboBox, BorderLayout.CENTER);
 		}
@@ -63,10 +63,10 @@ public class AppendContactDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Object tmp_contact = new Object();
-						tmp_contact = contactsModel.getSelectedConact(comboBox.getSelectedIndex());
-						if (tmp_contact instanceof Contacts)
-							cin.addContactToGroup((Contacts) tmp_contact);
+						Object tmp_host = new Object();
+						tmp_host = hostsModel.getSelectedHost(comboBox.getSelectedIndex());
+						if (tmp_host instanceof Hosts)
+							hlm.addHostToGroup((Hosts) tmp_host);
 						dispose();
 					}
 				});

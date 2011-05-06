@@ -19,9 +19,11 @@ import net.it_tim.dude_of_dude.GUI.table_staf.HostsTableModel;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import javax.swing.KeyStroke;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 
@@ -37,7 +39,7 @@ public class mainWnd extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
 		setTitle("Dude of Dude");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 300, 640, 320);
+		setBounds(300, 300, 671, 320);
 		setLocationRelativeTo(null);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -63,6 +65,8 @@ public class mainWnd extends JFrame {
 		JMenuItem mntmNotifications = new JMenuItem("Notifications");
 		mntmNotifications.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				NotificationSettings notificationSettings = new NotificationSettings();
+				notificationSettings.setVisible(true);
 			}
 		});
 		mntmNotifications.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
@@ -157,6 +161,12 @@ public class mainWnd extends JFrame {
 		});
 		
 		JButton btnNotifications = new JButton("Notifications");
+		btnNotifications.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NotificationSettings notificationSettings = new NotificationSettings();
+				notificationSettings.setVisible(true);
+			}
+		});
 		btnNotifications.setMnemonic('N');
 		btnNotifications.setIcon(new ImageIcon(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
 		toolBar.add(btnNotifications);

@@ -33,7 +33,7 @@ public class MembershipSettings extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private GroupsListModel grListModel = new GroupsListModel();
+	private GroupsListModel grListModel;
 	private JList list;
 	private JPanel panel;
 	private JToolBar toolBar;
@@ -48,6 +48,7 @@ public class MembershipSettings extends JFrame {
 	 * Create the frame.
 	 */
 	public MembershipSettings() {
+		grListModel = new GroupsListModel();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MembershipSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Clipped ID.png")));
 		setTitle("Membership Settings");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -97,8 +98,6 @@ public class MembershipSettings extends JFrame {
 				if (index != -1) {
 					AppendContactDialog appendDialog = new AppendContactDialog(cin);
 					appendDialog.setVisible(true);
-					grListModel.getGroup(index).getContactses(); 
-
 				}
 			}
 		});

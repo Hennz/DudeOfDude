@@ -23,7 +23,7 @@ public class PingThread extends TimerTask {
 	@Override
 	public synchronized void run() {
 			pinghistory = phh.getLastState(host);
-			last_status = pinghistory.getStatus();
+			last_status = pinghistory.getStatus().booleanValue();
 			
 			if (host.getToPing()) {
 				ping();

@@ -20,9 +20,9 @@ public class DudeOfDude {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		coloredPrint(Tools.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Tools.COLOR_WHITE);
+		Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Tools.COLOR_WHITE);
 		if (args.length > 0 && args[0].equals("-g")) {
-			coloredPrint(Tools.COLOR_GREEN, "~~~ Запуск графічного інтерфейсу ~~~", Tools.COLOR_WHITE);
+			Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Запуск графічного інтерфейсу ~~~", Tools.COLOR_WHITE);
 			new GUI();
 			return;
 		}
@@ -37,7 +37,7 @@ public class DudeOfDude {
 		UnixSystem unix_user = new UnixSystem();
     	uid = unix_user.getUid();
     	if (uid != 0) {
-    		coloredPrint(Tools.COLOR_RED, "!!! Потрібні супер права !!!", Tools.COLOR_WHITE);
+    		Tools.coloredPrint(Tools.COLOR_RED, "!!! Потрібні супер права !!!", Tools.COLOR_WHITE);
             System.exit(-1);
     	}
 		}
@@ -50,16 +50,16 @@ public class DudeOfDude {
 			
 			if (usermanager.checkPassword(username, new String(passwd))) {
 				Arrays.fill(passwd, ' ');
-				coloredPrint(Tools.COLOR_GREEN, " ~~~ Вхід вдалий ~~~", Tools.COLOR_WHITE);
+				Tools.coloredPrint(Tools.COLOR_GREEN, " ~~~ Вхід вдалий ~~~", Tools.COLOR_WHITE);
 			} else {
 				Arrays.fill(passwd, ' ');
-				coloredPrint(Tools.COLOR_RED, " ~~~ Щось зламалось ~~~", Tools.COLOR_WHITE);
+				Tools.coloredPrint(Tools.COLOR_RED, " ~~~ Щось зламалось ~~~", Tools.COLOR_WHITE);
 				System.exit(0);
 			}
 
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
-			coloredPrint(Tools.COLOR_RED, "!!! Системна консоль не доступна !!!", Tools.COLOR_WHITE);
+			Tools.coloredPrint(Tools.COLOR_RED, "!!! Системна консоль не доступна !!!", Tools.COLOR_WHITE);
 			System.exit(-1);
 		}
 
@@ -102,24 +102,16 @@ public class DudeOfDude {
 			e.printStackTrace();
 		}
 		
-		coloredPrint(Tools.COLOR_YELLOW, "~~~ To quit enter \"quit\" and press enter ~~~", Tools.COLOR_WHITE);
+		Tools.coloredPrint(Tools.COLOR_YELLOW, "~~~ To quit enter \"quit\" and press enter ~~~", Tools.COLOR_WHITE);
 		while(true) {
 			String cmd = console.readLine();
 			if (cmd.equals("quit")) {
 				DAO.close();
 				System.exit(0);
 			} else {
-				coloredPrint(Tools.COLOR_RED, "~~~ unknown command ~~~", Tools.COLOR_WHITE);
+				Tools.coloredPrint(Tools.COLOR_RED, "~~~ unknown command ~~~", Tools.COLOR_WHITE);
 			}
 		}
-	}
-	
-	private static void coloredPrint(String ... args) {
-		StringBuilder message = new StringBuilder();
-		for (int i = 0; i < args.length; i++) {
-			message.append(args[i]);
-		}
-		System.out.println(message.toString());
 	}
 
 }
