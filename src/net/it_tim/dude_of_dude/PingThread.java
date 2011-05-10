@@ -93,16 +93,21 @@ public class PingThread extends TimerTask {
 	private void sendMail(String message) {
 		ArrayList<String> recipients = new ArrayList<String>();
 		Set<Groups> group_set = host.getGroupses();
-		Iterator<Groups> gr_iterator = group_set.iterator();
-		while (gr_iterator.hasNext()) {
-			Set<Contacts> contact_set = gr_iterator.next().getContactses();
-			Iterator<Contacts> cont_iterator = contact_set.iterator();
-			while (cont_iterator.hasNext()) {
-				recipients.add(cont_iterator.next().getContact());
+		if (group_set != null) {
+			Iterator<Groups> gr_iterator = group_set.iterator();
+			while (gr_iterator.hasNext()) {
+				Set<Contacts> contact_set = gr_iterator.next().getContactses();
+				Iterator<Contacts> cont_iterator = contact_set.iterator();
+				while (cont_iterator.hasNext()) {
+					recipients.add(cont_iterator.next().getContact());
+				}
+			}
+			try {
+				MailSender.postMail(recipients.toArray(new String[recipients
+						.size()]), host.getDescription(), message,
+						"dude_of_dude@meta.ua");
+			} catch (MessagingException mex) {
 			}
 		}
-		try {
-			MailSender.postMail(recipients.toArray(new String[recipients.size()]), host.getDescription() , message, "dude_of_dude@meta.ua");
-		} catch (MessagingException mex) {}
 	}
 }
