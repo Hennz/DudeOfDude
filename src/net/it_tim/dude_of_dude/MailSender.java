@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public final class MailSender {
-	static void postMail(String recipients[], String subject, String message,
+	static synchronized void postMail(String recipients[], String subject, String message,
 			String from) throws MessagingException {
 		boolean debug = false;
 
