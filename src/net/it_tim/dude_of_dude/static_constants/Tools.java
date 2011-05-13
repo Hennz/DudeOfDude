@@ -9,8 +9,10 @@ import java.text.SimpleDateFormat;
 public final class Tools {
 	public static final String SVC_DOWN = "Service %s is \u001b[91mDOWN!\u001b[97m IP address: %s Timeout: %d ms Time: %s";
 	public static final String SVC_UP = "Service %s is \u001b[92mUP!\u001b[97m IP address: %s Timeout: %d ms Time: %s";
-	public static final String MAIL_DOWN = "Service %s is DOWN! IP address: %s Timeout: %d ms Time: %s";
-	public static final String MAIL_UP = "Service %s is UP! IP address: %s Timeout: %d ms Time: %s";
+	public static final String SVC_P_LOSS = "WARNING! Packet loss on service: \"%s\"! IP address: %s Loss: %d %% Time: %s";
+	public static final String MAIL_DOWN = "Service: \"%s\" is DOWN! IP address: %s Timeout: %d ms Time: %s";
+	public static final String MAIL_UP = "Service: \"%s\" is UP! IP address: %s Timeout: %d ms Time: %s";
+	public static final String MAIL_P_LOSS = "WARNING! Packet loss on service: \"%s\"! IP address: %s Loss: %d %% Time: %s";
 	public static final String COLOR_RED = "\u001b[91m";
 	public static final String COLOR_GREEN = "\u001b[92m";
 	public static final String COLOR_WHITE = "\u001b[97m";

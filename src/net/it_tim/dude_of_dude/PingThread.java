@@ -16,6 +16,7 @@ public class PingThread extends TimerTask {
 
 	private Hosts host;
 	private boolean status = false;
+	private boolean packetLoss = false;
 	private PingHistoryHome phh = new PingHistoryHome();
 	private PingHistory pinghistory = new PingHistory();
 	private boolean last_status = true;
@@ -36,7 +37,7 @@ public class PingThread extends TimerTask {
 			ping();
 	}
 
-	private void log(Boolean status, Integer timeOut) {
+	private synchronized void log(Boolean status, Integer timeOut) {
 		PingHistory ph = new PingHistory();
 		ph.setHosts(host);
 		PingHistoryHome phh = new PingHistoryHome();
@@ -47,7 +48,7 @@ public class PingThread extends TimerTask {
 		phh.log_ping(ph);
 	}
 
-	private void notificate(Boolean status) {
+	private synchronized void notificate(Boolean status) {
 		NotificatioinsHistory nh = new NotificatioinsHistory();
 		nh.setHosts(host);
 		NotificatioinsHistoryHome nhh = new NotificatioinsHistoryHome();
@@ -61,15 +62,16 @@ public class PingThread extends TimerTask {
 		System.out.println(String.format(format, args));
 	}
 
-	private void ping() {
+	private synchronized void ping() {
 		try {
-			long startTime = System.currentTimeMillis();
+			
 			Ping ping = new Ping(host.getIpAdres(), host.getTimeoutMs()
 					.intValue());
-			Integer timeOut = new Long(System.currentTimeMillis() - startTime)
-					.intValue();
+			Integer timeOut = ping.getTimeout();
 
 			status = ping.isOnline();
+			packetLoss = ping.isPacketLoss();
+			
 			log(new Boolean(status), timeOut);
 
 			if (status != last_status) {
@@ -82,11 +84,20 @@ public class PingThread extends TimerTask {
 					notificate(status);
 					sendMail(message);
 				} else {
-					String message = String.format(Tools.MAIL_DOWN, host
-							.getDescription(), host.getIpAdres(), timeOut,
-							Tools.getDateTime());
-					formatedPrint(Tools.SVC_DOWN, host.getDescription(), host
-							.getIpAdres(), timeOut, Tools.getDateTime());
+					String message = new String();
+					if (packetLoss) {
+						message = String.format(Tools.MAIL_P_LOSS, host
+								.getDescription(), host.getIpAdres(), ping.getPacketLoss(),
+								Tools.getDateTime());
+						formatedPrint(Tools.SVC_P_LOSS, host.getDescription(),
+								host.getIpAdres(), ping.getPacketLoss(), Tools.getDateTime());
+					} else {
+						message = String.format(Tools.MAIL_DOWN, host
+								.getDescription(), host.getIpAdres(), timeOut,
+								Tools.getDateTime());
+						formatedPrint(Tools.SVC_DOWN, host.getDescription(),
+								host.getIpAdres(), timeOut, Tools.getDateTime());
+					}
 					notificate(status);
 					sendMail(message);
 				}
@@ -99,7 +110,7 @@ public class PingThread extends TimerTask {
 
 	}
 
-	private void sendMail(String message) {
+	private synchronized void sendMail(String message) {
 		ArrayList<String> recipients = new ArrayList<String>();
 		Set<Groups> group_set = host.getGroupses();
 		if (group_set != null) {
