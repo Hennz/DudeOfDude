@@ -1,9 +1,15 @@
 package net.it_tim.dude_of_dude;
 
-import java.util.Arrays;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.Timer;
-import java.io.Console;
+//import java.io.Console;
 import com.sun.security.auth.module.UnixSystem;
 
 import net.it_tim.dude_of_dude.GUI.GUI;
@@ -13,7 +19,7 @@ import net.it_tim.dude_of_dude.static_constants.Tools;
 public class DudeOfDude {
 
 	private static long uid = -1;
-	private static Console console = System.console();
+	//private static Console console = System.console();
 	/**
 	 * @param args
 	 */
@@ -33,14 +39,52 @@ public class DudeOfDude {
 			e.printStackTrace();
 		}
 		
-		if (System.getProperty("os.name").equals("Linux")) {		
+		String os = new String(System.getProperty("os.name"));
+		
+		if ( os.equals("Linux") || os.equals("Solaris") ) {		
 		UnixSystem unix_user = new UnixSystem();
     	uid = unix_user.getUid();
     	if (uid != 0) {
     		Tools.coloredPrint(Tools.COLOR_RED, "!!! Потрібні супер права !!!", Tools.COLOR_WHITE);
-            System.exit(-1);
+            System.exit(0);
     	}
+		} else {
+			Tools.coloredPrint("!!! Windows not supported... yet !!!");
+			System.exit(0);
 		}
+		
+		Writer writer = null;
+
+        try {
+    		String[] pid = ManagementFactory.getRuntimeMXBean().getName().split("@");
+    		
+            File file = new File("/var/run/dude_of_dude.pid");
+            writer = new BufferedWriter(new FileWriter(file));
+            writer.write(pid[0]);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+		/*		
+		try
+        {
+            daemonize();
+        }
+        catch (Throwable e)
+        {
+            System.err.println("Startup failed. " + e.getMessage());
+            return;
+        }
+        
 
     	try {
 			String username = console.readLine("[%s] > [%s]", Tools.getDateTime(), "Логін:");
@@ -62,46 +106,28 @@ public class DudeOfDude {
 			Tools.coloredPrint(Tools.COLOR_RED, "!!! Системна консоль не доступна !!!", Tools.COLOR_WHITE);
 			System.exit(-1);
 		}
-
+		*/
 
 		try {
 			HostsHome hh = new HostsHome();
-			
+
 			List host_list = hh.getAll();
-			for (Hosts host: (List<Hosts>) host_list) {
-				PingThread ping_thread = new PingThread(host);
-				Timer timer = new Timer();
-				timer.schedule(ping_thread, 0, host.getIntervalMs());
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {}
-			}
-			/*
-			ping = new Ping("192.168.77.7", 1000);
-			if (ping.isOnline()) {
-				System.out
-						.println(String
-								.format(
-										net.it_tim.dude_of_dude.static_constants.Message.SVC_UP,
-										"Barn-e", "192.168.77.7", "now"));
-			} else {
-				String recs[] = { "gofl@meta.ua" /*
-												 * ,
-												 * "380676589174@sms.kyivstar.net"
-												 *};
-				try {
-					MailSender.postMail(recs, "Test msg",
-							"Dude fuck's your Cisco!", "Anal@nosorog.net");
-					System.out.println("Service is offline");
-				} catch (MessagingException ex) {
-					ex.printStackTrace();
+			for (Hosts host : (List<Hosts>) host_list) {
+				if (host.getToPing()) {
+					PingThread ping_thread = new PingThread(host);
+					Timer timer = new Timer();
+					timer.schedule(ping_thread, 0, host.getIntervalMs());
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+					}
 				}
 			}
-			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+	}
+		/*
 		Tools.coloredPrint(Tools.COLOR_YELLOW, "~~~ To quit enter \"quit\" and press enter ~~~", Tools.COLOR_WHITE);
 		while(true) {
 			String cmd = console.readLine();
@@ -112,6 +138,13 @@ public class DudeOfDude {
 				Tools.coloredPrint(Tools.COLOR_RED, "~~~ unknown command ~~~", Tools.COLOR_WHITE);
 			}
 		}
+
 	}
 
+	static private void daemonize() throws Exception
+    {
+        System.in.close();
+        System.out.close();
+    }
+    		*/
 }

@@ -49,7 +49,7 @@ public class Login extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		getContentPane().add(contentPanel, BorderLayout.NORTH);
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			JPanel loginPanel = new JPanel();
 			loginPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -103,7 +103,7 @@ public class Login extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						dispose();
+						System.exit(0);
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
