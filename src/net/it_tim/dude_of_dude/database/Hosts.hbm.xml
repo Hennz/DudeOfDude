@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 20 ???????? 2011 10:24:31 by Hibernate Tools 3.3.0.GA -->
+<!-- Generated 16 ???????? 2011 12:41:21 by Hibernate Tools 3.3.0.GA -->
 <hibernate-mapping>
     <class name="net.it_tim.dude_of_dude.database.Hosts" table="hosts" schema="public">
         <id name="hostId" type="int">
             <column name="host_id" />
-            <generator class="sequence">
-            <param name="sequence">hosts_host_id_seq</param>
-            </generator>
+            <generator class="assigned" />
         </id>
         <property name="ipAdres" type="string">
             <column name="ip_adres" length="15" />
@@ -24,6 +22,12 @@
         </property>
         <property name="toPing" type="java.lang.Boolean">
             <column name="to_ping" />
+        </property>
+        <property name="packetLoss" type="short">
+            <column name="packet_loss" not-null="true" />
+        </property>
+        <property name="downCount" type="short">
+            <column name="down_count" not-null="true" />
         </property>
         <set name="notificatioinsHistories" table="notificatioins_history" inverse="true" lazy="true" fetch="select">
             <key>

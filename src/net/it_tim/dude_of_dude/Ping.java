@@ -12,7 +12,7 @@ public class Ping
 	private int timeOut;
 	private final int COUNT = 50;
 	
-	public Ping(String URL, int timeout) throws IOException {
+	public Ping(String URL, int timeout, short packet_loss) throws IOException {
         try
         {
         	boolean tmp_status;
@@ -38,7 +38,7 @@ public class Ping
         
 		if ((bad > 0)) {
 			result = (bad / COUNT) * 100;
-			if (result > 5.0 && result < 90.0) {
+			if (result > packet_loss && result < 90.0) {
 				packetLoss = true;
 				status = false;
 			} else  if (result > 90.0){

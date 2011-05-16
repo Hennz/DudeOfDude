@@ -20,6 +20,7 @@ public class PingThread extends TimerTask {
 	private PingHistoryHome phh = new PingHistoryHome();
 	private PingHistory pinghistory = new PingHistory();
 	private boolean last_status = true;
+	private int down_count = 0;
 
 	public PingThread(Hosts host) {
 		super();
@@ -66,14 +67,20 @@ public class PingThread extends TimerTask {
 		try {
 			
 			Ping ping = new Ping(host.getIpAdres(), host.getTimeoutMs()
-					.intValue());
-			Integer timeOut = ping.getTimeout();
-
+					.intValue(), host.getPacketLoss());
 			status = ping.isOnline();
 			packetLoss = ping.isPacketLoss();
 			
+			if (( !status || packetLoss ) && down_count < host.getDownCount()) {
+				down_count++;
+				System.out.println(down_count + " down! unreported. Aval. downs: " + host.getDownCount() + " for " + host.getDescription());
+				return;
+			}
+			
+			Integer timeOut = ping.getTimeout();
 			log(new Boolean(status), timeOut);
-
+			down_count = 0;
+			
 			if (status != last_status) {
 				if (status) {
 					String message = String.format(Tools.MAIL_UP, host
@@ -130,4 +137,5 @@ public class PingThread extends TimerTask {
 			}
 		}
 	}
+
 }

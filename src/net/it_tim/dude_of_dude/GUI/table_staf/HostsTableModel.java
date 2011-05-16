@@ -15,11 +15,11 @@ public class HostsTableModel extends AbstractTableModel {
 	private HostsHome hh;
 	
 	String headers[] = { "IP", "Description", "Time out in ms",
-    "Interval in ms", "To ping?" };
+    "Interval in ms", "To ping?", "Packet loss", "Down count" };
 	
 	@SuppressWarnings("unchecked")
 	Class columnClasses[] = { String.class, String.class,
-    Long.class, Long.class, Boolean.class };
+    Long.class, Long.class, Boolean.class, Short.class, Short.class };
 
 	@SuppressWarnings("unchecked")
 	public HostsTableModel() {
@@ -69,6 +69,10 @@ public class HostsTableModel extends AbstractTableModel {
 			return list.get(rowIndex).getIntervalMs().toString();
 		case 4:
 			return list.get(rowIndex).getToPing();
+		case 5: 
+			return list.get(rowIndex).getPacketLoss();
+		case 6:
+			return list.get(rowIndex).getDownCount();
 		}
 		
 		return null;
@@ -102,6 +106,14 @@ public class HostsTableModel extends AbstractTableModel {
 			if (arg0 instanceof Boolean)
 			list.get(rowIndex).setToPing((Boolean) arg0);
 			break;
+		case 5:
+			if (arg0 instanceof Short)
+			list.get(rowIndex).setPacketLoss((Short) arg0);
+			break;
+		case 6:
+			if (arg0 instanceof Short)
+			list.get(rowIndex).setDownCount((Short) arg0);
+			break;
 		}
 		
 		try {
@@ -121,6 +133,9 @@ public class HostsTableModel extends AbstractTableModel {
 		host.setTimeoutMs(new Long(10000));
 		host.setIntervalMs(new Long(60000));
 		host.setToPing(false);
+		host.setPacketLoss(new Short((short) 5));
+		host.setDownCount(new Short((short) 5));
+		
 		try {
 		list.add(host);
 		hh.persist(host);
