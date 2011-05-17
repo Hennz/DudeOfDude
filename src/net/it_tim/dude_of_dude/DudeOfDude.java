@@ -40,8 +40,9 @@ public class DudeOfDude {
 		}
 		
 		String os = new String(System.getProperty("os.name"));
+		Tools.coloredPrint(Tools.COLOR_RED, os, Tools.COLOR_WHITE);
 		
-		if ( os.equals("Linux") || os.equals("Solaris") ) {		
+		if ( os.equals("Linux") || os.equals("SunOS") ) {		
 		UnixSystem unix_user = new UnixSystem();
     	uid = unix_user.getUid();
     	if (uid != 0) {
