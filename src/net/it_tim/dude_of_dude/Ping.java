@@ -6,7 +6,7 @@ import java.net.InetAddress;
 public class Ping {
 	private boolean status, packetLoss;
 	private InetAddress address;
-	private float good, bad, result;
+	private float bad, result;
 	private int timeOut;
 	private final int COUNT = 50;
 
@@ -19,24 +19,22 @@ public class Ping {
 				tmp_status = address.isReachable(null, 255, timeout);
 				timeOut += new Long(System.currentTimeMillis() - startTime)
 						.intValue();
+				if (!tmp_status) {
+					bad++;
+				}
 				try {
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
-				if (tmp_status) {
-					good++;
-				} else {
-					bad++;
 				}
 			}
 		} catch (IOException ex) {
 			throw ex;
 		}
 
-		if ((bad > 0)) {
+		if (bad > 0) {
 			result = (bad / COUNT) * 100;
-			if (result > packet_loss && result < 90.0) {
+			if ( (result > packet_loss) && (result < 90.0) ) {
 				packetLoss = true;
 				status = false;
 			} else if (result > 90.0) {
