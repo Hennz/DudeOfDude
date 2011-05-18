@@ -7,24 +7,31 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.management.ManagementFactory;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-//import java.io.Console;
 import com.sun.security.auth.module.UnixSystem;
 
 import net.it_tim.dude_of_dude.GUI.GUI;
 import net.it_tim.dude_of_dude.database.*;
+import net.it_tim.dude_of_dude.rmi.ServerControl;
+import net.it_tim.dude_of_dude.rmi.ServerControlImp;
 import net.it_tim.dude_of_dude.static_constants.Tools;
 
 public class DudeOfDude {
 
 	private static long uid = -1;
-	//private static Console console = System.console();
+	private static Registry registry;
+	private static ServerControlImp sci;
+	private static ArrayList<Timer> timer_list = new ArrayList<Timer>();
 	/**
 	 * @param args
 	 */
 
-	@SuppressWarnings("unchecked")
+
 	public static void main(String[] args) {
 		Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Tools.COLOR_WHITE);
 		if (args.length > 0 && args[0].equals("-g")) {
@@ -32,7 +39,7 @@ public class DudeOfDude {
 			new GUI();
 			return;
 		}
-		
+		initRMI();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -75,49 +82,21 @@ public class DudeOfDude {
                 e.printStackTrace();
             }
         }
-		/*		
-		try
-        {
-            daemonize();
-        }
-        catch (Throwable e)
-        {
-            System.err.println("Startup failed. " + e.getMessage());
-            return;
-        }
-        
-
-    	try {
-			String username = console.readLine("[%s] > [%s]", Tools.getDateTime(), "Логін:");
-			char[] passwd = console.readPassword("[%s] > [%s]", Tools.getDateTime(), "Пароль:");
-			
-			UsersHome usermanager = new UsersHome();
-			
-			if (usermanager.checkPassword(username, new String(passwd))) {
-				Arrays.fill(passwd, ' ');
-				Tools.coloredPrint(Tools.COLOR_GREEN, " ~~~ Вхід вдалий ~~~", Tools.COLOR_WHITE);
-			} else {
-				Arrays.fill(passwd, ' ');
-				Tools.coloredPrint(Tools.COLOR_RED, " ~~~ Щось зламалось ~~~", Tools.COLOR_WHITE);
-				System.exit(0);
-			}
-
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			Tools.coloredPrint(Tools.COLOR_RED, "!!! Системна консоль не доступна !!!", Tools.COLOR_WHITE);
-			System.exit(-1);
-		}
-		*/
-
-		try {
+        initPingThreads();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void initPingThreads() {
+        try {
 			HostsHome hh = new HostsHome();
-
 			List host_list = hh.getAll();
+			
 			for (Hosts host : (List<Hosts>) host_list) {
 				if (host.getToPing()) {
 					PingThread ping_thread = new PingThread(host);
 					Timer timer = new Timer();
 					timer.schedule(ping_thread, 0, host.getIntervalMs());
+					timer_list.add(timer);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -128,24 +107,49 @@ public class DudeOfDude {
 			e.printStackTrace();
 		}
 	}
-		/*
-		Tools.coloredPrint(Tools.COLOR_YELLOW, "~~~ To quit enter \"quit\" and press enter ~~~", Tools.COLOR_WHITE);
-		while(true) {
-			String cmd = console.readLine();
-			if (cmd.equals("quit")) {
-				DAO.close();
-				System.exit(0);
-			} else {
-				Tools.coloredPrint(Tools.COLOR_RED, "~~~ unknown command ~~~", Tools.COLOR_WHITE);
-			}
-		}
-
+	
+	private static void initRMI() {
+        try {
+        	sci = new ServerControlImp();
+        	ServerControl stub = (ServerControl)UnicastRemoteObject.exportObject(sci);
+            registry = LocateRegistry.createRegistry(2005);
+            registry.bind("ServerControl", stub);
+            Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Система віддаленого управління сервером запущена ~~~", Tools.COLOR_WHITE);
+        } catch (Exception e) {
+        	Tools.coloredPrint(Tools.COLOR_RED, "!!! Система віддаленого управління сервером НЕ запущена !!!", Tools.COLOR_WHITE);
+            e.printStackTrace();
+            System.exit(0);
+        }
 	}
 
-	static private void daemonize() throws Exception
-    {
-        System.in.close();
-        System.out.close();
-    }
-    		*/
+	public static void serverShutdown(final String msg) {
+		try {
+			UnicastRemoteObject.unexportObject(sci, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		new Thread() {
+			@Override
+			public void run() {
+				Tools.coloredPrint(Tools.COLOR_RED, msg, Tools.COLOR_WHITE);
+				try {
+					sleep(2000);
+				} catch (InterruptedException e) {
+					// I don't care
+				}
+				Tools.coloredPrint(Tools.COLOR_RED, "Done!", Tools.COLOR_WHITE);
+				System.exit(0);
+			}
+
+		}.start();
+	}
+	
+	public static void serverStop() {
+		Tools.coloredPrint(Tools.COLOR_RED, "Stopping server", Tools.COLOR_WHITE);
+		for (Timer timer : timer_list) {
+			timer.cancel();
+			timer.purge();
+		}
+	}
 }

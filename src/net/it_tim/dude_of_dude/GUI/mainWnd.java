@@ -15,6 +15,7 @@ import javax.swing.JTable;
 
 import net.it_tim.dude_of_dude.GUI.table_staf.BoolCellRenderer;
 import net.it_tim.dude_of_dude.GUI.table_staf.HostsTableModel;
+import net.it_tim.dude_of_dude.rmi.ServerControl;
 
 import javax.swing.JToolBar;
 import javax.swing.JButton;
@@ -26,6 +27,9 @@ import javax.swing.KeyStroke;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.rmi.RMISecurityManager;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class mainWnd extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -205,6 +209,22 @@ public class mainWnd extends JFrame {
 		});
 		btnUsers.setIcon(new ImageIcon(mainWnd.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Clipped ID.png")));
 		toolBar.add(btnUsers);
+		
+		JButton btnStopServer = new JButton("Stop Server");
+		btnStopServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		            System.setSecurityManager(new RMISecurityManager());
+		        try {
+		        	Registry registry = LocateRegistry.getRegistry("192.168.33.116", 2005);
+		            ServerControl server = (ServerControl)registry.lookup("ServerControl");
+		            server.stop("Hello");
+		        } catch (Exception ex) {
+		            System.err.println("ServerControl exception:");
+		            ex.printStackTrace();
+		        }
+			}
+		});
+		toolBar.add(btnStopServer);
 		table.setDefaultRenderer(Boolean.class, new BoolCellRenderer());
 		table.getColumnModel().getColumn(4).setMinWidth(30);
 		table.getColumnModel().getColumn(4).setMaxWidth(30);

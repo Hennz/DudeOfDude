@@ -128,13 +128,13 @@ public class HostsTableModel extends AbstractTableModel {
 
 	public void addRow() {
 		Hosts host = new Hosts();
-		host.setDescription("Empty");
+		host.setDescription("Dummy");
 		host.setIpAdres("127.0.0.1");
-		host.setTimeoutMs(new Long(10000));
+		host.setTimeoutMs(new Long(200));
 		host.setIntervalMs(new Long(60000));
 		host.setToPing(false);
 		host.setPacketLoss(new Short((short) 5));
-		host.setDownCount(new Short((short) 5));
+		host.setDownCount(new Short((short) 1));
 		
 		try {
 		list.add(host);

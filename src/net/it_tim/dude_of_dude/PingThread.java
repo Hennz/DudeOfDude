@@ -79,6 +79,7 @@ public class PingThread extends TimerTask {
 			
 			Integer timeOut = ping.getTimeout();
 			log(new Boolean(status), timeOut);
+			down_count = 0;
 			
 			if (status != last_status) {
 				if (status) {
@@ -87,7 +88,6 @@ public class PingThread extends TimerTask {
 							Tools.getDateTime());
 					formatedPrint(Tools.SVC_UP, host.getDescription(), host
 							.getIpAdres(), timeOut, Tools.getDateTime());
-					down_count = 0;
 					notificate(status);
 					sendMail(message);
 				} else {
