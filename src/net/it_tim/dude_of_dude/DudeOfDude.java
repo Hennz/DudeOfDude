@@ -13,6 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+
 import com.sun.security.auth.module.UnixSystem;
 
 import net.it_tim.dude_of_dude.GUI.GUI;
@@ -97,10 +98,6 @@ public class DudeOfDude {
 					Timer timer = new Timer();
 					timer.schedule(ping_thread, 0, host.getIntervalMs());
 					timer_list.add(timer);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-					}
 				}
 			}
 		} catch (Exception e) {
@@ -151,5 +148,6 @@ public class DudeOfDude {
 			timer.cancel();
 			timer.purge();
 		}
+		timer_list.clear();
 	}
 }

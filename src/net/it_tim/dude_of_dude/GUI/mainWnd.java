@@ -30,6 +30,7 @@ import java.awt.event.InputEvent;
 import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import javax.swing.ListSelectionModel;
 
 public class mainWnd extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -120,6 +121,10 @@ public class mainWnd extends JFrame {
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable(hostTableModel);
+		table.setCellSelectionEnabled(true);
+		table.setShowVerticalLines(true);
+		table.setShowHorizontalLines(true);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 		
 		JToolBar toolBar = new JToolBar();
