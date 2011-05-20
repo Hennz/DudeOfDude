@@ -26,7 +26,6 @@ public class PingThread extends TimerTask {
 		} else {
 			last_status = true;
 		}
-
 	}
 
 	@Override
