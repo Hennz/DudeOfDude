@@ -19,7 +19,7 @@ import net.it_tim.dude_of_dude.database.*;
 public class Login extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private final JPanel contentPanel = new JPanel();
 	private JTextField loginField;
 	private JPasswordField pwdField;
@@ -42,17 +42,19 @@ public class Login extends JDialog {
 	 */
 	public Login() {
 		final UsersHome usermanager = new UsersHome();
-		
+
 		setBounds(100, 100, 450, 131);
 		setLocationRelativeTo(null);
-		
+
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
-		contentPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		contentPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null,
+				null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			JPanel loginPanel = new JPanel();
-			loginPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			loginPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null,
+					null, null, null));
 			contentPanel.add(loginPanel);
 			{
 				JLabel lblLogin = new JLabel("Login");
@@ -66,7 +68,8 @@ public class Login extends JDialog {
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null,
+					null, null));
 			contentPanel.add(panel);
 			{
 				JLabel lblPassword = new JLabel("Password");
@@ -88,7 +91,8 @@ public class Login extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						if (usermanager.checkPassword(loginField.getText(), new String(pwdField.getPassword()))) {
+						if (usermanager.checkPassword(loginField.getText(),
+								new String(pwdField.getPassword()))) {
 							dispose();
 							mainWnd mainWindow = new mainWnd();
 							mainWindow.setVisible(true);

@@ -29,11 +29,16 @@ public class AppendContactDialog extends JDialog {
 	private final ContactsComboBoxModel contactsModel;
 	private JComboBox comboBox;
 	private ContactsListModel cin;
+
 	/**
 	 * Create the dialog.
 	 */
 	public AppendContactDialog(ContactsListModel contactsInGroupsListModel) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AppendContactDialog.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
+		setIconImage(Toolkit
+				.getDefaultToolkit()
+				.getImage(
+						AppendContactDialog.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
 		setTitle("Select contact");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		contactsModel = new ContactsComboBoxModel();
@@ -64,7 +69,8 @@ public class AppendContactDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Object tmp_contact = new Object();
-						tmp_contact = contactsModel.getSelectedConact(comboBox.getSelectedIndex());
+						tmp_contact = contactsModel.getSelectedConact(comboBox
+								.getSelectedIndex());
 						if (tmp_contact instanceof Contacts)
 							cin.addContactToGroup((Contacts) tmp_contact);
 						dispose();

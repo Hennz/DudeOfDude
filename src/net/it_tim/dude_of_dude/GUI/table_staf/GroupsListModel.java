@@ -12,14 +12,14 @@ public class GroupsListModel extends AbstractListModel {
 
 	private GroupsHome gh;
 	private List<Groups> group_list;
-	
+
 	@SuppressWarnings("unchecked")
 	public GroupsListModel() {
 		gh = new GroupsHome();
 		group_list = gh.getAll();
 
 	}
-	
+
 	@Override
 	public Object getElementAt(int arg0) {
 		if (group_list == null)
@@ -33,21 +33,22 @@ public class GroupsListModel extends AbstractListModel {
 			return 0;
 		return group_list.size();
 	}
-	
+
 	public Groups getGroup(int index) {
 		if (group_list == null)
 			return new Groups();
 		return gh.findById(group_list.get(index).getGroupId());
 	}
-	
+
 	public void addGroup(String description) {
 		Groups gr = new Groups();
 		gr.setDescription(description);
 		try {
-		group_list.add(gr);
-		gh.persist(gr);
-		fireContentsChanged(this, 0, group_list.size());
-		} catch (RuntimeException re) {}
+			group_list.add(gr);
+			gh.persist(gr);
+			fireContentsChanged(this, 0, group_list.size());
+		} catch (RuntimeException re) {
+		}
 	}
 
 	public void removeGroup(int index) {
@@ -55,10 +56,11 @@ public class GroupsListModel extends AbstractListModel {
 			gh.delete(group_list.get(index));
 			group_list.remove(index);
 			fireContentsChanged(this, 0, group_list.size());
-		} catch (RuntimeException re) {}
+		} catch (RuntimeException re) {
+		}
 
 	}
-	
+
 	public void updateGroup(int index, String new_name) {
 		try {
 			Groups gr = group_list.get(index);
@@ -66,6 +68,7 @@ public class GroupsListModel extends AbstractListModel {
 			gh.update(gr);
 			group_list.set(index, gr);
 			fireContentsChanged(this, 0, group_list.size());
-		} catch (RuntimeException re) {}
+		} catch (RuntimeException re) {
+		}
 	}
 }

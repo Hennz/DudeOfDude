@@ -13,21 +13,21 @@ public class Md5Hash {
 			m.reset();
 			m.update(plaintext.getBytes());
 			byte[] digest = m.digest();
-			BigInteger bigInt = new BigInteger(1,digest);
+			BigInteger bigInt = new BigInteger(1, digest);
 			hashtext = bigInt.toString(16);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		while(hashtext.length() < 32 ){
-		  hashtext = "0"+hashtext;
+		while (hashtext.length() < 32) {
+			hashtext = "0" + hashtext;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return hashtext;
 	}
-	
+
 	private String hashtext = "";
 }

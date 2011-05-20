@@ -15,6 +15,7 @@ import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class Users.
+ * 
  * @see net.it_tim.dude_of_dude.database.Users
  * @author Hibernate Tools
  */
@@ -64,7 +65,7 @@ public class UsersHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	public void update(Users instance) {
 		log.debug("updating Users instance");
 		try {
@@ -97,8 +98,7 @@ public class UsersHome extends DAO {
 		log.debug("merging Users instance");
 		try {
 			begin();
-			Users result = (Users) getCurrentSession().merge(
-					detachedInstance);
+			Users result = (Users) getCurrentSession().merge(detachedInstance);
 			commit();
 			log.debug("merge successful");
 			return result;
@@ -135,9 +135,9 @@ public class UsersHome extends DAO {
 		log.debug("finding Users instance by example");
 		try {
 			begin();
-			List<Users> results = (List<Users>) getCurrentSession().createCriteria(
-							"net.it_tim.dude_of_dude.database.Users").add(
-							create(instance)).list();
+			List<Users> results = (List<Users>) getCurrentSession()
+					.createCriteria("net.it_tim.dude_of_dude.database.Users")
+					.add(create(instance)).list();
 			commit();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -148,23 +148,31 @@ public class UsersHome extends DAO {
 			throw re;
 		}
 	}
-	
-	public boolean checkPassword( String login, String password ) {
+
+	public boolean checkPassword(String login, String password) {
 		begin();
-		Users user = (Users) getCurrentSession().createCriteria("net.it_tim.dude_of_dude.database.Users")
-		.add(Restrictions.eq("login", login)).uniqueResult();
+		Users user = (Users) getCurrentSession().createCriteria(
+				"net.it_tim.dude_of_dude.database.Users").add(
+				Restrictions.eq("login", login)).uniqueResult();
 		commit();
 		String currHash = new Md5Hash(password).toString();
 		try {
-		if (currHash.equals(user.getPassword())) { return true; } else { return false; }
-		} catch (Exception ex) { return false; }
+			if (currHash.equals(user.getPassword())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception ex) {
+			return false;
+		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List getAll() {
 		try {
 			begin();
-			List group_list = getCurrentSession().createQuery("from Users order by name asc").list();
+			List group_list = getCurrentSession().createQuery(
+					"from Users order by name asc").list();
 			commit();
 			return group_list;
 		} catch (RuntimeException re) {

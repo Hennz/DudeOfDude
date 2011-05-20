@@ -46,7 +46,7 @@ public class PingThread extends TimerTask {
 			status = ping.isOnline();
 			packetLoss = ping.isPacketLoss();
 
-			if ((!status || packetLoss) && down_count < host.getDownCount()) {
+			if ((!status || packetLoss) && down_count < host.getDownCount() && last_status) {
 				down_count++;
 				System.out
 						.println(down_count

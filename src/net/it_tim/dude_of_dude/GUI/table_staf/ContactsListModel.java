@@ -44,7 +44,8 @@ public class ContactsListModel extends AbstractListModel {
 	public Object getElementAt(int arg0) {
 		if (contact_list == null)
 			return null;
-		String result = contact_list.get(arg0).getContact() + " - " + contact_list.get(arg0).getUsers().getLogin();
+		String result = contact_list.get(arg0).getContact() + " - "
+				+ contact_list.get(arg0).getUsers().getLogin();
 		return result;
 	}
 
@@ -98,7 +99,7 @@ public class ContactsListModel extends AbstractListModel {
 		} catch (RuntimeException re) {
 		}
 	}
-	
+
 	public void removeContact(int index) {
 		if (index == -1)
 			return;

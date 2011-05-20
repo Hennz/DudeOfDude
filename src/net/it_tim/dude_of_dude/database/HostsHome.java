@@ -12,6 +12,7 @@ import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class Hosts.
+ * 
  * @see net.it_tim.dude_of_dude.database.Hosts
  * @author Hibernate Tools
  */
@@ -60,7 +61,7 @@ public class HostsHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public void attachClean(Hosts instance) {
 		log.debug("attaching clean Hosts instance");
@@ -93,8 +94,7 @@ public class HostsHome extends DAO {
 	public Hosts merge(Hosts detachedInstance) {
 		log.debug("merging Hosts instance");
 		try {
-			Hosts result = (Hosts) getCurrentSession().merge(
-					detachedInstance);
+			Hosts result = (Hosts) getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -128,10 +128,9 @@ public class HostsHome extends DAO {
 		log.debug("finding Hosts instance by example");
 		try {
 			begin();
-			List<Hosts> results = (List<Hosts>) 
-					getCurrentSession().createCriteria(
-							"net.it_tim.dude_of_dude.database.Hosts").add(
-							create(instance)).list();
+			List<Hosts> results = (List<Hosts>) getCurrentSession()
+					.createCriteria("net.it_tim.dude_of_dude.database.Hosts")
+					.add(create(instance)).list();
 			commit();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -142,14 +141,14 @@ public class HostsHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	public Hosts findByIp(String ipAddr) {
 		log.debug("finding Hosts instance by IP: " + ipAddr);
 		try {
 			begin();
-			Hosts instance  = (Hosts) 
-				getCurrentSession().createCriteria("net.it_tim.dude_of_dude.database.Hosts")
-					.add(Restrictions.eq("ipAdres", ipAddr)).uniqueResult();
+			Hosts instance = (Hosts) getCurrentSession().createCriteria(
+					"net.it_tim.dude_of_dude.database.Hosts").add(
+					Restrictions.eq("ipAdres", ipAddr)).uniqueResult();
 			commit();
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -163,12 +162,13 @@ public class HostsHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List getAll() {
 		try {
 			begin();
-			List host_list = getCurrentSession().createQuery("from Hosts order by ipAdres asc").list();
+			List host_list = getCurrentSession().createQuery(
+					"from Hosts order by ipAdres asc").list();
 			commit();
 			return host_list;
 		} catch (RuntimeException re) {

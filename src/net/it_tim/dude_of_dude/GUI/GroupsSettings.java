@@ -26,11 +26,16 @@ public class GroupsSettings extends JFrame {
 	private JPanel contentPane;
 	private GroupsListModel grListModel = new GroupsListModel();
 	private JList list;
+
 	/**
 	 * Create the frame.
 	 */
 	public GroupsSettings() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
+		setIconImage(Toolkit
+				.getDefaultToolkit()
+				.getImage(
+						GroupsSettings.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
 		setTitle("Group Management");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -40,70 +45,89 @@ public class GroupsSettings extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		list = new JList(grListModel);
 		scrollPane.setViewportView(list);
-		
+
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		contentPane.add(toolBar, BorderLayout.NORTH);
-		
+
 		JButton btnAddGroup = new JButton("Add Group");
 		btnAddGroup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String groupName = JOptionPane.showInputDialog("Enter group name: ");
+				String groupName = JOptionPane
+						.showInputDialog("Enter group name: ");
 				if (groupName != null)
 					grListModel.addGroup(groupName);
 			}
 		});
-		btnAddGroup.setIcon(new ImageIcon(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Note-Add.png")));
+		btnAddGroup
+				.setIcon(new ImageIcon(
+						GroupsSettings.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Note-Add.png")));
 		toolBar.add(btnAddGroup);
-		
+
 		JButton btnDeleteGroup = new JButton("Delete Group");
 		btnDeleteGroup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = list.getSelectedIndex();
 				if (index != -1) {
-					int opt = JOptionPane.showConfirmDialog(null, "<html><font color=red>~~~ Really delete? ~~~</font>" +
-							"<br>" + list.getSelectedValue().toString() +
-							"</html>", "WARNING", JOptionPane.YES_NO_OPTION);
+					int opt = JOptionPane.showConfirmDialog(null,
+							"<html><font color=red>~~~ Really delete? ~~~</font>"
+									+ "<br>"
+									+ list.getSelectedValue().toString()
+									+ "</html>", "WARNING",
+							JOptionPane.YES_NO_OPTION);
 					if (opt != 1)
 						grListModel.removeGroup(index);
 				} else {
-					JOptionPane.showMessageDialog(null, "~~~ You should select at least one entry ~~~");
+					JOptionPane.showMessageDialog(null,
+							"~~~ You should select at least one entry ~~~");
 				}
 			}
 		});
-		btnDeleteGroup.setIcon(new ImageIcon(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Note-Remove.png")));
+		btnDeleteGroup
+				.setIcon(new ImageIcon(
+						GroupsSettings.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Note-Remove.png")));
 		toolBar.add(btnDeleteGroup);
-		
+
 		JButton btnModifyGroup = new JButton("Modify Group");
 		btnModifyGroup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = list.getSelectedIndex();
 				if (index != -1) {
-					String groupName = JOptionPane.showInputDialog(null, "Enter new group name: ", list.getSelectedValue().toString());
+					String groupName = JOptionPane.showInputDialog(null,
+							"Enter new group name: ", list.getSelectedValue()
+									.toString());
 					if (groupName != null)
 						grListModel.updateGroup(index, groupName);
 				} else {
-					JOptionPane.showMessageDialog(null, "~~~ You should select at least one entry ~~~");
+					JOptionPane.showMessageDialog(null,
+							"~~~ You should select at least one entry ~~~");
 				}
 			}
 		});
-		btnModifyGroup.setIcon(new ImageIcon(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Pencil.png")));
+		btnModifyGroup
+				.setIcon(new ImageIcon(
+						GroupsSettings.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Pencil.png")));
 		toolBar.add(btnModifyGroup);
-		
+
 		JButton btnClose = new JButton("Close");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnClose.setIcon(new ImageIcon(GroupsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Close.png")));
+		btnClose
+				.setIcon(new ImageIcon(
+						GroupsSettings.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Signage/Close.png")));
 		toolBar.add(btnClose);
-		
 
 	}
 

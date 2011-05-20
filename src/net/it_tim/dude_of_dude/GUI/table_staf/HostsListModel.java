@@ -16,18 +16,19 @@ public class HostsListModel extends AbstractListModel {
 	private HostsHome hh;
 	private List<Hosts> host_list;
 	private Groups hGroup;
-	
+
 	public HostsListModel(Groups group) {
 		hh = new HostsHome();
 		host_list = new ArrayList<Hosts>(group.getHostses());
 		hGroup = group;
 	}
-	
+
 	@Override
 	public Object getElementAt(int arg0) {
 		if (host_list == null)
 			return null;
-		String result = new String(host_list.get(arg0).getIpAdres() + " - " + host_list.get(arg0).getDescription());
+		String result = new String(host_list.get(arg0).getIpAdres() + " - "
+				+ host_list.get(arg0).getDescription());
 		return result;
 	}
 
@@ -60,19 +61,15 @@ public class HostsListModel extends AbstractListModel {
 			host_list.remove(index);
 			hh.update(host);
 			fireContentsChanged(this, 0, host_list.size());
-		} catch (RuntimeException re) {}
+		} catch (RuntimeException re) {
+		}
 
 	}
-	
+
 	/*
-	public void updateGroup(int index, String new_name) {
-		try {
-			Groups gr = group_list.get(index);
-			gr.setDescription(new_name);
-			gh.update(gr);
-			group_list.set(index, gr);
-			fireContentsChanged(this, 0, group_list.size());
-		} catch (RuntimeException re) {}
-	}
-	*/
+	 * public void updateGroup(int index, String new_name) { try { Groups gr =
+	 * group_list.get(index); gr.setDescription(new_name); gh.update(gr);
+	 * group_list.set(index, gr); fireContentsChanged(this, 0,
+	 * group_list.size()); } catch (RuntimeException re) {} }
+	 */
 }

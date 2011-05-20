@@ -12,14 +12,14 @@ public class UsersListModel extends AbstractListModel {
 
 	private UsersHome uh;
 	private List<Users> user_list;
-	
+
 	@SuppressWarnings("unchecked")
 	public UsersListModel() {
 		uh = new UsersHome();
 		user_list = uh.getAll();
 
 	}
-	
+
 	@Override
 	public Object getElementAt(int arg0) {
 		if (user_list == null)
@@ -33,13 +33,14 @@ public class UsersListModel extends AbstractListModel {
 			return 0;
 		return user_list.size();
 	}
-	
+
 	public void addUser(Users user) {
 		try {
 			user_list.add(user);
 			uh.persist(user);
 			fireContentsChanged(this, 0, user_list.size());
-		} catch (RuntimeException re) {}
+		} catch (RuntimeException re) {
+		}
 	}
 
 	public void removeUser(int index) {
@@ -47,18 +48,20 @@ public class UsersListModel extends AbstractListModel {
 			uh.delete(user_list.get(index));
 			user_list.remove(index);
 			fireContentsChanged(this, 0, user_list.size());
-		} catch (RuntimeException re) {}
+		} catch (RuntimeException re) {
+		}
 
 	}
-	
+
 	public void updateUser(int index, Users user) {
 		try {
 			uh.update(user);
 			user_list.set(index, user);
 			fireContentsChanged(this, 0, user_list.size());
-		} catch (RuntimeException re) {}
+		} catch (RuntimeException re) {
+		}
 	}
-	
+
 	public Users getUser(int index) {
 		if (user_list == null)
 			return new Users();

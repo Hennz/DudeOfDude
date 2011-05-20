@@ -29,11 +29,16 @@ public class AppendHostDialog extends JDialog {
 	private HostsComboBoxModel hostsModel;
 	private JComboBox comboBox;
 	private HostsListModel hlm;
+
 	/**
 	 * Create the dialog.
 	 */
 	public AppendHostDialog(HostsListModel hostsInGroupsListModel) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AppendHostDialog.class.getResource("/net/it_tim/dude_of_dude/icons/Emporium/Home.png")));
+		setIconImage(Toolkit
+				.getDefaultToolkit()
+				.getImage(
+						AppendHostDialog.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Emporium/Home.png")));
 		setTitle("Select host");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		hostsModel = new HostsComboBoxModel();
@@ -64,7 +69,8 @@ public class AppendHostDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Object tmp_host = new Object();
-						tmp_host = hostsModel.getSelectedHost(comboBox.getSelectedIndex());
+						tmp_host = hostsModel.getSelectedHost(comboBox
+								.getSelectedIndex());
 						if (tmp_host instanceof Hosts)
 							hlm.addHostToGroup((Hosts) tmp_host);
 						dispose();

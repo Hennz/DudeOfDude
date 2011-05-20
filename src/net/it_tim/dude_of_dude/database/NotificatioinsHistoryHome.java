@@ -4,7 +4,6 @@ package net.it_tim.dude_of_dude.database;
 
 import java.util.List;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
@@ -14,6 +13,7 @@ import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class NotificatioinsHistory.
+ * 
  * @see net.it_tim.dude_of_dude.database.NotificatioinsHistory
  * @author Hibernate Tools
  */
@@ -70,8 +70,8 @@ public class NotificatioinsHistoryHome extends DAO {
 	public NotificatioinsHistory merge(NotificatioinsHistory detachedInstance) {
 		log.debug("merging NotificatioinsHistory instance");
 		try {
-			NotificatioinsHistory result = (NotificatioinsHistory) 
-					getCurrentSession().merge(detachedInstance);
+			NotificatioinsHistory result = (NotificatioinsHistory) getCurrentSession()
+					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -83,8 +83,7 @@ public class NotificatioinsHistoryHome extends DAO {
 	public NotificatioinsHistory findById(int id) {
 		log.debug("getting NotificatioinsHistory instance with id: " + id);
 		try {
-			NotificatioinsHistory instance = (NotificatioinsHistory) 
-					getCurrentSession()
+			NotificatioinsHistory instance = (NotificatioinsHistory) getCurrentSession()
 					.get(
 							"net.it_tim.dude_of_dude.database.NotificatioinsHistory",
 							id);
@@ -105,8 +104,7 @@ public class NotificatioinsHistoryHome extends DAO {
 			NotificatioinsHistory instance) {
 		log.debug("finding NotificatioinsHistory instance by example");
 		try {
-			List<NotificatioinsHistory> results = (List<NotificatioinsHistory>) 
-					getCurrentSession()
+			List<NotificatioinsHistory> results = (List<NotificatioinsHistory>) getCurrentSession()
 					.createCriteria(
 							"net.it_tim.dude_of_dude.database.NotificatioinsHistory")
 					.add(create(instance)).list();
@@ -118,7 +116,7 @@ public class NotificatioinsHistoryHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	public void notificate(NotificatioinsHistory transientInstance) {
 		log.debug("persisting NotificatioinsHistory instance");
 		try {

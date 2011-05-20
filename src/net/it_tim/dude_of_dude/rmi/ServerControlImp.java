@@ -16,8 +16,18 @@ public class ServerControlImp implements ServerControl {
 	}
 
 	@Override
-	public void stop(String msg) throws RemoteException {
+	public void stop() throws RemoteException {
 		DudeOfDude.serverStop();
+	}
+
+	@Override
+	public void start() throws RemoteException {
+		DudeOfDude.serverStart();
+	}
+
+	@Override
+	public boolean isStarted() throws RemoteException {
+		return DudeOfDude.isStarted();
 	}
 
 }

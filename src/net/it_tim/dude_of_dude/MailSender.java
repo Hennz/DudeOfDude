@@ -10,8 +10,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public final class MailSender {
-	static synchronized void postMail(String recipients[], String subject, String message,
-			String from) throws MessagingException {
+	static synchronized void postMail(String recipients[], String subject,
+			String message, String from) throws MessagingException {
 		boolean debug = false;
 
 		// Set the host smtp address
@@ -34,7 +34,7 @@ public final class MailSender {
 			addressTo[i] = new InternetAddress(recipients[i]);
 		}
 		msg.setRecipients(Message.RecipientType.TO, addressTo);
-		
+
 		// Optional : You can also set your custom headers in the Email if you
 		// Want
 		msg.addHeader("MyHeaderName", "myHeaderValue");

@@ -10,6 +10,7 @@ import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class Groups.
+ * 
  * @see net.it_tim.dude_of_dude.database.Groups
  * @author Hibernate Tools
  */
@@ -73,7 +74,7 @@ public class GroupsHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	public void delete(Groups persistentInstance) {
 		log.debug("deleting Groups instance");
 		try {
@@ -92,8 +93,8 @@ public class GroupsHome extends DAO {
 		log.debug("merging Groups instance");
 		try {
 			begin();
-			Groups result = (Groups) getCurrentSession().merge(
-					detachedInstance);
+			Groups result = (Groups) getCurrentSession()
+					.merge(detachedInstance);
 			commit();
 			log.debug("merge successful");
 			return result;
@@ -130,10 +131,9 @@ public class GroupsHome extends DAO {
 		log.debug("finding Groups instance by example");
 		try {
 			begin();
-			List<Groups> results = (List<Groups>) 
-					getCurrentSession().createCriteria(
-							"net.it_tim.dude_of_dude.database.Groups").add(
-							create(instance)).list();
+			List<Groups> results = (List<Groups>) getCurrentSession()
+					.createCriteria("net.it_tim.dude_of_dude.database.Groups")
+					.add(create(instance)).list();
 			commit();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -144,12 +144,13 @@ public class GroupsHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List getAll() {
 		try {
 			begin();
-			List group_list = getCurrentSession().createQuery("from Groups order by description asc").list();
+			List group_list = getCurrentSession().createQuery(
+					"from Groups order by description asc").list();
 			commit();
 			return group_list;
 		} catch (RuntimeException re) {

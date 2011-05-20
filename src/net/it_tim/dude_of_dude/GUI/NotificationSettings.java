@@ -31,13 +31,18 @@ public class NotificationSettings extends JDialog {
 	private GroupsListModel grListModel;
 	private HostsListModel hlm;
 	private JList groupList, hostList;
+
 	/**
 	 * Create the dialog.
 	 */
 	public NotificationSettings() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		grListModel = new GroupsListModel();
-		setIconImage(Toolkit.getDefaultToolkit().getImage(NotificationSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
+		setIconImage(Toolkit
+				.getDefaultToolkit()
+				.getImage(
+						NotificationSettings.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
 		setTitle("Notifications Settings");
 		setBounds(100, 100, 632, 300);
 		setLocationRelativeTo(null);
@@ -58,12 +63,14 @@ public class NotificationSettings extends JDialog {
 						public void mouseClicked(MouseEvent e) {
 							int index = groupList.getSelectedIndex();
 							if (index != -1) {
-								hlm = new HostsListModel(grListModel.getGroup(index)); 
+								hlm = new HostsListModel(grListModel
+										.getGroup(index));
 								hostList.setModel(hlm);
 							}
 						}
 					});
-					groupList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					groupList
+							.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					groupList.setSelectedIndex(0);
 					scrollPane.setViewportView(groupList);
 				}
@@ -82,12 +89,16 @@ public class NotificationSettings extends JDialog {
 							public void actionPerformed(ActionEvent e) {
 								int index = groupList.getSelectedIndex();
 								if (index != -1) {
-									AppendHostDialog appendDialog = new AppendHostDialog(hlm);
+									AppendHostDialog appendDialog = new AppendHostDialog(
+											hlm);
 									appendDialog.setVisible(true);
 								}
 							}
 						});
-						btnAddHost.setIcon(new ImageIcon(NotificationSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Add_Square.png")));
+						btnAddHost
+								.setIcon(new ImageIcon(
+										NotificationSettings.class
+												.getResource("/net/it_tim/dude_of_dude/icons/Signage/Add_Square.png")));
 						btnAddHost.setMnemonic('A');
 						toolBar.add(btnAddHost);
 					}
@@ -97,18 +108,29 @@ public class NotificationSettings extends JDialog {
 							public void actionPerformed(ActionEvent e) {
 								int index = hostList.getSelectedIndex();
 								if (index != -1) {
-									int opt = JOptionPane.showConfirmDialog(null, "<html><font color=red>~~~ Really delete? ~~~</font>" +
-											"<br>" + hostList.getSelectedValue().toString() +
-											"</html>", "WARNING", JOptionPane.YES_NO_OPTION);
+									int opt = JOptionPane.showConfirmDialog(
+											null,
+											"<html><font color=red>~~~ Really delete? ~~~</font>"
+													+ "<br>"
+													+ hostList
+															.getSelectedValue()
+															.toString()
+													+ "</html>", "WARNING",
+											JOptionPane.YES_NO_OPTION);
 									if (opt != 1)
 										hlm.removeHostFromGroup(index);
 								} else {
-									JOptionPane.showMessageDialog(null, "~~~ You should select at least one entry ~~~");
+									JOptionPane
+											.showMessageDialog(null,
+													"~~~ You should select at least one entry ~~~");
 								}
 							}
 						});
 						btnRemoveHost.setMnemonic('R');
-						btnRemoveHost.setIcon(new ImageIcon(NotificationSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Remove_Square.png")));
+						btnRemoveHost
+								.setIcon(new ImageIcon(
+										NotificationSettings.class
+												.getResource("/net/it_tim/dude_of_dude/icons/Signage/Remove_Square.png")));
 						toolBar.add(btnRemoveHost);
 					}
 				}
@@ -118,7 +140,8 @@ public class NotificationSettings extends JDialog {
 					{
 						hlm = new HostsListModel(grListModel.getGroup(0));
 						hostList = new JList(hlm);
-						hostList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						hostList
+								.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 						hostList.setSelectedIndex(0);
 						scrollPane.setViewportView(hostList);
 					}

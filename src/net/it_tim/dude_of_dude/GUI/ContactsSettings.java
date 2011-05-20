@@ -32,11 +32,16 @@ public class ContactsSettings extends JDialog {
 	private ContactsListModel clm;
 	private UsersListModel ulm = new UsersListModel();
 	private JList userList, contactList;
+
 	/**
 	 * Create the dialog.
 	 */
 	public ContactsSettings() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ContactsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
+		setIconImage(Toolkit
+				.getDefaultToolkit()
+				.getImage(
+						ContactsSettings.class
+								.getResource("/net/it_tim/dude_of_dude/icons/Papermart/Contacts.png")));
 		setTitle("Contacts Management");
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -79,25 +84,33 @@ public class ContactsSettings extends JDialog {
 						btnAddUser.setMnemonic('A');
 						btnAddUser.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								String email = JOptionPane.showInputDialog("Enter e-mail address: ");
+								String email = JOptionPane
+										.showInputDialog("Enter e-mail address: ");
 								if (email != null)
-									if ( Tools.isValidEmailAddress(email) ) {
+									if (Tools.isValidEmailAddress(email)) {
 										Contacts contact = new Contacts();
 										contact.setContact(email);
 										clm.addContact(contact);
 									} else {
-										JOptionPane.showMessageDialog(null, "~~~ Invalid e-mail ~~~");
+										JOptionPane.showMessageDialog(null,
+												"~~~ Invalid e-mail ~~~");
 									}
-										
+
 							}
 						});
-						btnAddUser.setIcon(new ImageIcon(ContactsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Add_Square.png")));
+						btnAddUser
+								.setIcon(new ImageIcon(
+										ContactsSettings.class
+												.getResource("/net/it_tim/dude_of_dude/icons/Signage/Add_Square.png")));
 						toolBar.add(btnAddUser);
 					}
 					{
 						JButton btnRemoveUser = new JButton("Remove Contact");
 						btnRemoveUser.setMnemonic('R');
-						btnRemoveUser.setIcon(new ImageIcon(ContactsSettings.class.getResource("/net/it_tim/dude_of_dude/icons/Signage/Remove_Square.png")));
+						btnRemoveUser
+								.setIcon(new ImageIcon(
+										ContactsSettings.class
+												.getResource("/net/it_tim/dude_of_dude/icons/Signage/Remove_Square.png")));
 						toolBar.add(btnRemoveUser);
 					}
 				}

@@ -10,27 +10,27 @@ import net.it_tim.dude_of_dude.database.HostsHome;
 public class HostsTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Hosts> list;
 	private HostsHome hh;
-	
+
 	String headers[] = { "IP", "Description", "Time out in ms",
-    "Interval in ms", "To ping?", "Packet loss", "Down count" };
-	
+			"Interval in ms", "To ping?", "Packet loss", "Down count" };
+
 	@SuppressWarnings("unchecked")
-	Class columnClasses[] = { String.class, String.class,
-    Long.class, Long.class, Boolean.class, Short.class, Short.class };
+	Class columnClasses[] = { String.class, String.class, Long.class,
+			Long.class, Boolean.class, Short.class, Short.class };
 
 	@SuppressWarnings("unchecked")
 	public HostsTableModel() {
 		hh = new HostsHome();
 		list = hh.getAll();
 	}
-	
-    public HostsTableModel(List<Hosts> aList){
-        list = aList;
-    }
-	
+
+	public HostsTableModel(List<Hosts> aList) {
+		list = aList;
+	}
+
 	@Override
 	public Class<?> getColumnClass(int arg0) {
 		return columnClasses[arg0];
@@ -57,7 +57,7 @@ public class HostsTableModel extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if (list == null)
 			return null;
-		
+
 		switch (columnIndex) {
 		case 0:
 			return list.get(rowIndex).getIpAdres();
@@ -69,12 +69,12 @@ public class HostsTableModel extends AbstractTableModel {
 			return list.get(rowIndex).getIntervalMs().toString();
 		case 4:
 			return list.get(rowIndex).getToPing();
-		case 5: 
+		case 5:
 			return list.get(rowIndex).getPacketLoss();
 		case 6:
 			return list.get(rowIndex).getDownCount();
 		}
-		
+
 		return null;
 	}
 
@@ -88,40 +88,40 @@ public class HostsTableModel extends AbstractTableModel {
 		switch (columnIndex) {
 		case 0:
 			if (arg0 instanceof String)
-			list.get(rowIndex).setIpAdres((String) arg0);
+				list.get(rowIndex).setIpAdres((String) arg0);
 			break;
 		case 1:
 			if (arg0 instanceof String)
-			list.get(rowIndex).setDescription((String) arg0);
+				list.get(rowIndex).setDescription((String) arg0);
 			break;
 		case 2:
 			if (arg0 instanceof Long)
-			list.get(rowIndex).setTimeoutMs( (Long)arg0 );
+				list.get(rowIndex).setTimeoutMs((Long) arg0);
 			break;
 		case 3:
 			if (arg0 instanceof Long)
-			list.get(rowIndex).setIntervalMs( (Long)arg0 );
+				list.get(rowIndex).setIntervalMs((Long) arg0);
 			break;
 		case 4:
 			if (arg0 instanceof Boolean)
-			list.get(rowIndex).setToPing((Boolean) arg0);
+				list.get(rowIndex).setToPing((Boolean) arg0);
 			break;
 		case 5:
 			if (arg0 instanceof Short)
-			list.get(rowIndex).setPacketLoss((Short) arg0);
+				list.get(rowIndex).setPacketLoss((Short) arg0);
 			break;
 		case 6:
 			if (arg0 instanceof Short)
-			list.get(rowIndex).setDownCount((Short) arg0);
+				list.get(rowIndex).setDownCount((Short) arg0);
 			break;
 		}
-		
+
 		try {
 			hh.update(list.get(rowIndex));
 		} catch (RuntimeException ex) {
 			System.out.println(ex.getMessage());
-		} 
-		
+		}
+
 		fireTableCellUpdated(rowIndex, columnIndex);
 
 	}
@@ -135,19 +135,21 @@ public class HostsTableModel extends AbstractTableModel {
 		host.setToPing(false);
 		host.setPacketLoss(new Short((short) 5));
 		host.setDownCount(new Short((short) 1));
-		
+
 		try {
-		list.add(host);
-		hh.persist(host);
-		} catch (RuntimeException ex) { }
+			list.add(host);
+			hh.persist(host);
+		} catch (RuntimeException ex) {
+		}
 		fireTableDataChanged();
 	}
-	
+
 	public void deleteRow(int rowCount) {
 		try {
 			hh.delete(list.get(rowCount));
 			list.remove(rowCount);
-		} catch (RuntimeException ex) { }
+		} catch (RuntimeException ex) {
+		}
 		fireTableDataChanged();
 	}
 }

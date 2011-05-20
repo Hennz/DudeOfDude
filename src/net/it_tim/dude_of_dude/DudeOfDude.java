@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
 import com.sun.security.auth.module.UnixSystem;
 
 import net.it_tim.dude_of_dude.GUI.GUI;
@@ -28,15 +32,18 @@ public class DudeOfDude {
 	private static Registry registry;
 	private static ServerControlImp sci;
 	private static ArrayList<Timer> timer_list = new ArrayList<Timer>();
+	private static boolean isStarted = false;
+
 	/**
 	 * @param args
 	 */
 
-
 	public static void main(String[] args) {
-		Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~", Tools.COLOR_WHITE);
+		Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~",
+				Tools.COLOR_WHITE);
 		if (args.length > 0 && args[0].equals("-g")) {
-			Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Запуск графічного інтерфейсу ~~~", Tools.COLOR_WHITE);
+			Tools.coloredPrint(Tools.COLOR_GREEN,
+					"~~~ Запуск графічного інтерфейсу ~~~", Tools.COLOR_WHITE);
 			new GUI();
 			return;
 		}
@@ -46,77 +53,100 @@ public class DudeOfDude {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		String os = new String(System.getProperty("os.name"));
 		Tools.coloredPrint(Tools.COLOR_RED, os, Tools.COLOR_WHITE);
-		
-		if ( os.equals("Linux") || os.equals("SunOS") ) {		
-		UnixSystem unix_user = new UnixSystem();
-    	uid = unix_user.getUid();
-    	if (uid != 0) {
-    		Tools.coloredPrint(Tools.COLOR_RED, "!!! Потрібні супер права !!!", Tools.COLOR_WHITE);
-            System.exit(0);
-    	}
+
+		if (os.equals("Linux") || os.equals("SunOS")) {
+			UnixSystem unix_user = new UnixSystem();
+			uid = unix_user.getUid();
+			if (uid != 0) {
+				Tools.coloredPrint(Tools.COLOR_RED,
+						"!!! Потрібні супер права !!!", Tools.COLOR_WHITE);
+				System.exit(0);
+			}
 		} else {
 			Tools.coloredPrint("!!! Windows not supported... yet !!!");
 			System.exit(0);
 		}
-		
+
 		Writer writer = null;
 
-        try {
-    		String[] pid = ManagementFactory.getRuntimeMXBean().getName().split("@");
-    		
-            File file = new File("/var/run/dude_of_dude.pid");
-            writer = new BufferedWriter(new FileWriter(file));
-            writer.write(pid[0]);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        initPingThreads();
+		try {
+			String[] pid = ManagementFactory.getRuntimeMXBean().getName()
+					.split("@");
+
+			File file = new File("/var/run/dude_of_dude.pid");
+			writer = new BufferedWriter(new FileWriter(file));
+			writer.write(pid[0]);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		initPingThreads();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private static void initPingThreads() {
-        try {
+		try {
+			int thread_count = 0;
 			HostsHome hh = new HostsHome();
 			List host_list = hh.getAll();
-			
+
 			for (Hosts host : (List<Hosts>) host_list) {
 				if (host.getToPing()) {
 					PingThread ping_thread = new PingThread(host);
 					Timer timer = new Timer();
 					timer.schedule(ping_thread, 0, host.getIntervalMs());
 					timer_list.add(timer);
+					thread_count++;
 				}
 			}
+			isStarted = true;
+			System.out.println("Thread's running: "+thread_count);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
-	
+
 	private static void initRMI() {
-        try {
-        	sci = new ServerControlImp();
-        	ServerControl stub = (ServerControl)UnicastRemoteObject.exportObject(sci);
-            registry = LocateRegistry.createRegistry(2005);
-            registry.bind("ServerControl", stub);
-            Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Система віддаленого управління сервером запущена ~~~", Tools.COLOR_WHITE);
-        } catch (Exception e) {
-        	Tools.coloredPrint(Tools.COLOR_RED, "!!! Система віддаленого управління сервером НЕ запущена !!!", Tools.COLOR_WHITE);
-            e.printStackTrace();
-            System.exit(0);
-        }
+		try {
+			Integer rmi_port = new Integer(2005);
+			try {
+				Configuration rmiConfig = new PropertiesConfiguration(
+						"rmi.properties");
+				rmi_port = new Integer(rmiConfig.getInt("server.rmi.port"));
+			} catch (ConfigurationException e2) {
+				e2.printStackTrace();
+			}
+			
+			sci = new ServerControlImp();
+			ServerControl stub = (ServerControl) UnicastRemoteObject
+					.exportObject(sci);
+			registry = LocateRegistry.createRegistry(rmi_port.intValue());
+			registry.bind("ServerControl", stub);
+			Tools.coloredPrint(Tools.COLOR_GREEN,
+					"~~~ Система віддаленого управління сервером запущена ~~~",
+					Tools.COLOR_WHITE);
+		} catch (Exception e) {
+			Tools
+					.coloredPrint(
+							Tools.COLOR_RED,
+							"!!! Система віддаленого управління сервером НЕ запущена !!!",
+							Tools.COLOR_WHITE);
+			e.printStackTrace();
+			System.exit(0);
+		}
 	}
 
 	public static void serverShutdown(final String msg) {
@@ -141,13 +171,23 @@ public class DudeOfDude {
 
 		}.start();
 	}
-	
+
 	public static void serverStop() {
-		Tools.coloredPrint(Tools.COLOR_RED, "Stopping server", Tools.COLOR_WHITE);
+		Tools.coloredPrint(Tools.COLOR_RED, "Stopping server",
+				Tools.COLOR_WHITE);
 		for (Timer timer : timer_list) {
 			timer.cancel();
 			timer.purge();
 		}
 		timer_list.clear();
+		isStarted = false;
+	}
+	
+	public static void serverStart() {
+		initPingThreads();
+	}
+	
+	public static boolean isStarted() {
+		return isStarted;
 	}
 }

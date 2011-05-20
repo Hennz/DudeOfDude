@@ -10,6 +10,7 @@ import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class Contacts.
+ * 
  * @see net.it_tim.dude_of_dude.database.Contacts
  * @author Hibernate Tools
  */
@@ -78,8 +79,8 @@ public class ContactsHome extends DAO {
 		log.debug("merging Contacts instance");
 		try {
 			begin();
-			Contacts result = (Contacts) getCurrentSession()
-					.merge(detachedInstance);
+			Contacts result = (Contacts) getCurrentSession().merge(
+					detachedInstance);
 			commit();
 			log.debug("merge successful");
 			return result;
@@ -94,8 +95,8 @@ public class ContactsHome extends DAO {
 		log.debug("getting Contacts instance with id: " + id);
 		try {
 			begin();
-			Contacts instance = (Contacts) getCurrentSession()
-					.get("net.it_tim.dude_of_dude.database.Contacts", id);
+			Contacts instance = (Contacts) getCurrentSession().get(
+					"net.it_tim.dude_of_dude.database.Contacts", id);
 			commit();
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -115,10 +116,9 @@ public class ContactsHome extends DAO {
 		log.debug("finding Contacts instance by example");
 		try {
 			begin();
-			List<Contacts> results = (List<Contacts>) 
-					getCurrentSession().createCriteria(
-							"net.it_tim.dude_of_dude.database.Contacts").add(
-							create(instance)).list();
+			List<Contacts> results = (List<Contacts>) getCurrentSession()
+					.createCriteria("net.it_tim.dude_of_dude.database.Contacts")
+					.add(create(instance)).list();
 			commit();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -129,12 +129,13 @@ public class ContactsHome extends DAO {
 			throw re;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List getAll() {
 		try {
 			begin();
-			List contact_list = getCurrentSession().createQuery("from Contacts").list();
+			List contact_list = getCurrentSession()
+					.createQuery("from Contacts").list();
 			commit();
 			return contact_list;
 		} catch (RuntimeException re) {

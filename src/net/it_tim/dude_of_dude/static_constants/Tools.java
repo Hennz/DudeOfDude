@@ -18,11 +18,11 @@ public final class Tools {
 	public static final String COLOR_WHITE = "\u001b[97m";
 	public static final String COLOR_YELLOW = "\u001b[93m";
 
-    public static String getDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
+	public static String getDateTime() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
 
 	public static boolean isValidEmailAddress(String emailAddress) {
 		String expression = "^[\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
@@ -33,7 +33,7 @@ public final class Tools {
 
 	}
 
-	public static void coloredPrint(String ... args) {
+	public static void coloredPrint(String... args) {
 		StringBuilder message = new StringBuilder();
 		for (int i = 0; i < args.length; i++) {
 			message.append(args[i]);

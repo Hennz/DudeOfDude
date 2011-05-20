@@ -13,6 +13,7 @@ import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class PingHistory.
+ * 
  * @see net.it_tim.dude_of_dude.database.PingHistory
  * @author Hibernate Tools
  */
@@ -88,8 +89,8 @@ public class PingHistoryHome extends DAO {
 	public PingHistory merge(PingHistory detachedInstance) {
 		log.debug("merging PingHistory instance");
 		try {
-			PingHistory result = (PingHistory) 
-					getCurrentSession().merge(detachedInstance);
+			PingHistory result = (PingHistory) getCurrentSession().merge(
+					detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -101,9 +102,8 @@ public class PingHistoryHome extends DAO {
 	public PingHistory findById(int id) {
 		log.debug("getting PingHistory instance with id: " + id);
 		try {
-			PingHistory instance = (PingHistory) 
-					getCurrentSession().get(
-							"net.it_tim.dude_of_dude.database.PingHistory", id);
+			PingHistory instance = (PingHistory) getCurrentSession().get(
+					"net.it_tim.dude_of_dude.database.PingHistory", id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -120,8 +120,8 @@ public class PingHistoryHome extends DAO {
 	public List<PingHistory> findByExample(PingHistory instance) {
 		log.debug("finding PingHistory instance by example");
 		try {
-			List<PingHistory> results = (List<PingHistory>) 
-					getCurrentSession().createCriteria(
+			List<PingHistory> results = (List<PingHistory>) getCurrentSession()
+					.createCriteria(
 							"net.it_tim.dude_of_dude.database.PingHistory")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
@@ -132,11 +132,13 @@ public class PingHistoryHome extends DAO {
 			throw re;
 		}
 	}
-	
-	public PingHistory getLastState( Hosts host ) {
-		Query query = getCurrentSession().createSQLQuery("SELECT * from ping_history where id = (SELECT max(id) from ping_history where host_id = :hostId)")
-		.addEntity(PingHistory.class)
-		.setParameter("hostId", host.getHostId());
+
+	public PingHistory getLastState(Hosts host) {
+		Query query = getCurrentSession()
+				.createSQLQuery(
+						"SELECT * from ping_history where id = (SELECT max(id) from ping_history where host_id = :hostId)")
+				.addEntity(PingHistory.class).setParameter("hostId",
+						host.getHostId());
 		PingHistory ph = (PingHistory) query.uniqueResult();
 		return ph;
 	}

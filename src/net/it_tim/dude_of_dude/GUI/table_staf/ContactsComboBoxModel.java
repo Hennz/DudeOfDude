@@ -14,13 +14,13 @@ public class ContactsComboBoxModel extends AbstractListModel implements
 	private ContactsHome ch;
 	private List<Contacts> contact_list;
 	private String selected = (String) null;
-	
+
 	@SuppressWarnings("unchecked")
 	public ContactsComboBoxModel() {
 		ch = new ContactsHome();
 		contact_list = ch.getAll();
 	}
-	
+
 	@Override
 	public Object getSelectedItem() {
 		return selected;
@@ -33,14 +33,15 @@ public class ContactsComboBoxModel extends AbstractListModel implements
 
 	@Override
 	public Object getElementAt(int arg0) {
-		return contact_list.get(arg0).getContact() + " - " + contact_list.get(arg0).getUsers().getLogin();
+		return contact_list.get(arg0).getContact() + " - "
+				+ contact_list.get(arg0).getUsers().getLogin();
 	}
 
 	@Override
 	public int getSize() {
 		return contact_list.size();
 	}
-	
+
 	public Contacts getSelectedConact(int arg0) {
 		return contact_list.get(arg0);
 	}
