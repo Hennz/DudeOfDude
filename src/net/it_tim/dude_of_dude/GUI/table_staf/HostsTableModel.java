@@ -134,7 +134,7 @@ public class HostsTableModel extends AbstractTableModel {
 		host.setIntervalMs(new Long(60000));
 		host.setToPing(false);
 		host.setPacketLoss(new Short((short) 5));
-		host.setDownCount(new Short((short) 1));
+		host.setDownCount(new Short((short) 3));
 
 		try {
 			list.add(host);
