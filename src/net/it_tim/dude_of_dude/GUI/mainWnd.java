@@ -237,6 +237,7 @@ public class mainWnd extends JFrame {
 		table.setShowVerticalLines(true);
 		table.setShowHorizontalLines(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		scrollPane.setViewportView(table);
 
 		JToolBar toolBar = new JToolBar();
