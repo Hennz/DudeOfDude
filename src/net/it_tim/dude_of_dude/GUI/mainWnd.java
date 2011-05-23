@@ -35,9 +35,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import javax.swing.ListSelectionModel;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class mainWnd extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -47,6 +48,7 @@ public class mainWnd extends JFrame {
 	private JMenuItem mntmStartServer;
 	private JMenuItem mntmStopServer;
 	private JMenu mnServerControl;
+	private PropertiesConfiguration dodConfig;
 
 	/**
 	 * Create the frame.
@@ -60,11 +62,12 @@ public class mainWnd extends JFrame {
 		String rmi_host = "127.0.0.1";
 		Integer rmi_port = new Integer(2005);
 		try {
-			Configuration rmiConfig = new PropertiesConfiguration("rmi.properties");
-			rmi_host = rmiConfig.getString("client.rmi.host");
-			rmi_port = new Integer(rmiConfig.getInt("client.rmi.port"));
+			dodConfig = new PropertiesConfiguration("dod.properties");
+			rmi_host = dodConfig.getString("client.rmi.host");
+			rmi_port = new Integer(dodConfig.getInt("client.rmi.port"));
 		} catch (ConfigurationException e2) {
 			JOptionPane.showMessageDialog(null, e2.getMessage());
+			System.exit(0);
 		}
 
 		try {
@@ -95,9 +98,27 @@ public class mainWnd extends JFrame {
 								.getResource("/net/it_tim/dude_of_dude/icons/Mail/Airmail.png")));
 		setTitle("Dude of Dude");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 300, 671, 320);
+		setSize(dodConfig.getInt("gui.width"), dodConfig.getInt("gui.height"));
 		setLocationRelativeTo(null);
 
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dodConfig.setProperty("gui.width", getSize().width);
+				dodConfig.setProperty("gui.height", getSize().height);
+				int col_count = table.getColumnCount();
+				for (int i = 0; i < col_count; i++) {
+					dodConfig.setProperty("table.column.width."+new Integer(i).toString(), table.getColumnModel().getColumn(i).getWidth());
+				}
+				
+				try {
+					dodConfig.save();
+				} catch (ConfigurationException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+			}
+		});
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -108,12 +129,10 @@ public class mainWnd extends JFrame {
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 				InputEvent.CTRL_MASK));
-		mntmExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
+		mntmExit.addActionListener(new ExitAction());
+
 		mnFile.add(mntmExit);
+
 
 		JMenu mnTools = new JMenu("Tools");
 		mnTools.setMnemonic('T');
@@ -233,10 +252,17 @@ public class mainWnd extends JFrame {
 		
 		hostTableModel = new HostsTableModel();
 		table = new JTable(hostTableModel);
+		table.setAutoCreateRowSorter(true);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setCellSelectionEnabled(true);
 		table.setShowVerticalLines(true);
 		table.setShowHorizontalLines(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		int col_count = table.getColumnCount();
+		for (int i = 0; i < col_count; i++) {
+			table.getColumnModel().getColumn(i).setPreferredWidth(dodConfig.getInt("table.column.width."+new Integer(i).toString()));
+		}
 		
 		scrollPane.setViewportView(table);
 
