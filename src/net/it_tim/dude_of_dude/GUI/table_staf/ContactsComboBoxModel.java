@@ -1,9 +1,9 @@
 package net.it_tim.dude_of_dude.GUI.table_staf;
 
+import java.util.List;
+
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
-
-import java.util.List;
 
 import net.it_tim.dude_of_dude.database.Contacts;
 import net.it_tim.dude_of_dude.database.ContactsHome;

@@ -2,6 +2,8 @@ package net.it_tim.dude_of_dude.database;
 
 // Generated 20 квіт 2011 10:24:31 by Hibernate Tools 3.3.0.GA
 
+import static org.hibernate.criterion.Example.create;
+
 import java.util.List;
 
 import net.it_tim.dude_of_dude.Md5Hash;
@@ -10,8 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.criterion.Restrictions;
-
-import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class Users.

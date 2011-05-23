@@ -2,7 +2,7 @@ package net.it_tim.dude_of_dude.rmi;
 
 import java.rmi.RemoteException;
 
-import net.it_tim.dude_of_dude.DudeOfDude;
+import net.it_tim.dude_of_dude.Server;
 
 public class ServerControlImp implements ServerControl {
 
@@ -12,22 +12,22 @@ public class ServerControlImp implements ServerControl {
 
 	@Override
 	public void shutdown(String msg) throws RemoteException {
-		DudeOfDude.serverShutdown(msg);
+		Server.serverShutdown(msg);
 	}
 
 	@Override
 	public void stop() throws RemoteException {
-		DudeOfDude.serverStop();
+		Server.serverStop();
 	}
 
 	@Override
 	public void start() throws RemoteException {
-		DudeOfDude.serverStart();
+		Server.serverStart();
 	}
 
 	@Override
 	public boolean isStarted() throws RemoteException {
-		return DudeOfDude.isStarted();
+		return Server.isStarted();
 	}
 
 }

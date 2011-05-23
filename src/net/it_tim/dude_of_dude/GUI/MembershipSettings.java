@@ -1,30 +1,28 @@
 package net.it_tim.dude_of_dude.GUI;
 
 import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JSplitPane;
-import javax.swing.JList;
-
-import net.it_tim.dude_of_dude.GUI.table_staf.ContactsListModel;
-import net.it_tim.dude_of_dude.GUI.table_staf.GroupsListModel;
-
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JOptionPane;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.ListSelectionModel;
-import java.awt.Toolkit;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import net.it_tim.dude_of_dude.GUI.table_staf.ContactsListModel;
+import net.it_tim.dude_of_dude.GUI.table_staf.GroupsListModel;
 
 public class MembershipSettings extends JFrame {
 

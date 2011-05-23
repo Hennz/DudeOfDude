@@ -14,19 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
+import net.it_tim.dude_of_dude.database.Hosts;
+import net.it_tim.dude_of_dude.database.HostsHome;
+import net.it_tim.dude_of_dude.rmi.ServerControl;
+import net.it_tim.dude_of_dude.rmi.ServerControlImp;
+import net.it_tim.dude_of_dude.static_constants.Tools;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import com.sun.security.auth.module.UnixSystem;
 
-import net.it_tim.dude_of_dude.GUI.GUI;
-import net.it_tim.dude_of_dude.database.*;
-import net.it_tim.dude_of_dude.rmi.ServerControl;
-import net.it_tim.dude_of_dude.rmi.ServerControlImp;
-import net.it_tim.dude_of_dude.static_constants.Tools;
-
-public class DudeOfDude {
+public class Server {
 
 	private static long uid = -1;
 	private static Registry registry;
@@ -41,12 +41,6 @@ public class DudeOfDude {
 	public static void main(String[] args) {
 		Tools.coloredPrint(Tools.COLOR_GREEN, "~~~ Перевірка умов запуску ~~~",
 				Tools.COLOR_WHITE);
-		if (args.length > 0 && args[0].equals("-g")) {
-			Tools.coloredPrint(Tools.COLOR_GREEN,
-					"~~~ Запуск графічного інтерфейсу ~~~", Tools.COLOR_WHITE);
-			new GUI();
-			return;
-		}
 		initRMI();
 		try {
 			Thread.sleep(1000);
@@ -124,7 +118,7 @@ public class DudeOfDude {
 			Integer rmi_port = new Integer(2005);
 			try {
 				Configuration rmiConfig = new PropertiesConfiguration(
-						"rmi.properties");
+						"dod.properties");
 				rmi_port = new Integer(rmiConfig.getInt("server.rmi.port"));
 			} catch (ConfigurationException e2) {
 				e2.printStackTrace();

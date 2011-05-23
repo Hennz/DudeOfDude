@@ -1,32 +1,31 @@
 package net.it_tim.dude_of_dude.GUI;
 
-import javax.swing.JToolBar;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EtchedBorder;
-import javax.swing.JButton;
 
 import net.it_tim.dude_of_dude.Md5Hash;
 import net.it_tim.dude_of_dude.GUI.table_staf.UsersListModel;
 import net.it_tim.dude_of_dude.database.Users;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Dimension;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
-import javax.swing.JPasswordField;
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.ListSelectionModel;
 
 public class UserManagement extends JDialog {
 

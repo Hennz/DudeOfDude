@@ -2,27 +2,26 @@ package net.it_tim.dude_of_dude.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JOptionPane;
-import javax.swing.JSplitPane;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
 
 import net.it_tim.dude_of_dude.GUI.table_staf.GroupsListModel;
 import net.it_tim.dude_of_dude.GUI.table_staf.HostsListModel;
-
-import java.awt.Toolkit;
-import javax.swing.ListSelectionModel;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class NotificationSettings extends JDialog {
 

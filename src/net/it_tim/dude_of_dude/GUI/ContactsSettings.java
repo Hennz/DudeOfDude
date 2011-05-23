@@ -2,28 +2,27 @@ package net.it_tim.dude_of_dude.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JList;
+import javax.swing.JToolBar;
+import javax.swing.border.EmptyBorder;
 
 import net.it_tim.dude_of_dude.GUI.table_staf.ContactsListModel;
 import net.it_tim.dude_of_dude.GUI.table_staf.UsersListModel;
 import net.it_tim.dude_of_dude.database.Contacts;
 import net.it_tim.dude_of_dude.static_constants.Tools;
-
-import javax.swing.JToolBar;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JScrollPane;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ContactsSettings extends JDialog {
 

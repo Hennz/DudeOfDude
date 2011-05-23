@@ -3,7 +3,9 @@ package net.it_tim.dude_of_dude;
 import java.io.IOException;
 import java.util.TimerTask;
 
-import net.it_tim.dude_of_dude.database.*;
+import net.it_tim.dude_of_dude.database.Hosts;
+import net.it_tim.dude_of_dude.database.PingHistory;
+import net.it_tim.dude_of_dude.database.PingHistoryHome;
 import net.it_tim.dude_of_dude.static_constants.Tools;
 
 public class PingThread extends TimerTask {

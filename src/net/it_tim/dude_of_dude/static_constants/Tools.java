@@ -1,10 +1,10 @@
 package net.it_tim.dude_of_dude.static_constants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public final class Tools {
 	public static final String SVC_DOWN = "Service %s is \u001b[91mDOWN!\u001b[97m IP address: %s Timeout: %d ms Time: %s";

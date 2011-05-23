@@ -1,44 +1,39 @@
 package net.it_tim.dude_of_dude.GUI;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
-
-import javax.swing.JTable;
-
-import net.it_tim.dude_of_dude.GUI.table_staf.BoolCellRenderer;
-import net.it_tim.dude_of_dude.GUI.table_staf.HostsTableModel;
-import net.it_tim.dude_of_dude.rmi.ServerControl;
-
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-
-import java.awt.Toolkit;
 import java.awt.Dimension;
-import javax.swing.KeyStroke;
-
-import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+
+import net.it_tim.dude_of_dude.GUI.table_staf.*;
+import net.it_tim.dude_of_dude.rmi.ServerControl;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class mainWnd extends JFrame {
 	private static final long serialVersionUID = 1L;
