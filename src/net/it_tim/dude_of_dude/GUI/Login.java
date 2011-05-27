@@ -16,6 +16,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
 import net.it_tim.dude_of_dude.database.UsersHome;
+import java.awt.Toolkit;
 
 public class Login extends JDialog {
 
@@ -42,6 +43,8 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/net/it_tim/dude_of_dude/icons/Papermart/ID.png")));
+		setTitle("Login");
 		final UsersHome usermanager = new UsersHome();
 
 		setBounds(100, 100, 450, 131);
