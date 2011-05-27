@@ -6,19 +6,18 @@ import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
 import net.it_tim.dude_of_dude.database.Contacts;
-import net.it_tim.dude_of_dude.database.ContactsHome;
+import net.it_tim.dude_of_dude.database.DatabaseHome;
 
 public class ContactsComboBoxModel extends AbstractListModel implements
 		ComboBoxModel {
 	private static final long serialVersionUID = 1L;
-	private ContactsHome ch;
+	private DatabaseHome ch;
 	private List<Contacts> contact_list;
 	private String selected = (String) null;
 
-	@SuppressWarnings("unchecked")
 	public ContactsComboBoxModel() {
-		ch = new ContactsHome();
-		contact_list = ch.getAll();
+		ch = new DatabaseHome();
+		contact_list = ch.getAll(Contacts.class);
 	}
 
 	@Override

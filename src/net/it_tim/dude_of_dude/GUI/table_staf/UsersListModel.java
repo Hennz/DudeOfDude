@@ -13,10 +13,9 @@ public class UsersListModel extends AbstractListModel {
 	private UsersHome uh;
 	private List<Users> user_list;
 
-	@SuppressWarnings("unchecked")
 	public UsersListModel() {
 		uh = new UsersHome();
-		user_list = uh.getAll();
+		user_list = uh.getAll(Users.class);
 
 	}
 
@@ -65,6 +64,6 @@ public class UsersListModel extends AbstractListModel {
 	public Users getUser(int index) {
 		if (user_list == null)
 			return new Users();
-		return uh.findById(user_list.get(index).getUserId());
+		return uh.findById(Users.class, user_list.get(index).getUserId());
 	}
 }
