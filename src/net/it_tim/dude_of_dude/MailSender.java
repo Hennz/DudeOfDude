@@ -2,12 +2,8 @@ package net.it_tim.dude_of_dude;
 
 import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 public final class MailSender {
 	static synchronized void postMail(String recipients[], String subject,

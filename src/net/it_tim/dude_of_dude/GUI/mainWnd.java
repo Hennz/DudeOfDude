@@ -247,7 +247,6 @@ public class mainWnd extends JFrame {
 		
 		hostTableModel = new HostsTableModel();
 		table = new JTable(hostTableModel);
-		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setCellSelectionEnabled(true);
 		table.setShowVerticalLines(true);
@@ -286,7 +285,7 @@ public class mainWnd extends JFrame {
 				int selected = table.getSelectedRow();
 				if (selected != -1) {
 					int opt = JOptionPane.showConfirmDialog(null,
-							"~~~ Really delete? ~~~", "WARNING",
+							"~~~ Really delete: " + table.getValueAt(table.getSelectedRow(), 0).toString() + "? ~~~", "WARNING",
 							JOptionPane.YES_NO_OPTION);
 					if (opt != 1)
 						hostTableModel.deleteRow(table.getSelectedRow());
