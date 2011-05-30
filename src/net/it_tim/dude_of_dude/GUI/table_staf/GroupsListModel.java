@@ -4,19 +4,18 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import net.it_tim.dude_of_dude.database.DatabaseHome;
 import net.it_tim.dude_of_dude.database.Groups;
-import net.it_tim.dude_of_dude.database.GroupsHome;
 
 public class GroupsListModel extends AbstractListModel {
 	private static final long serialVersionUID = 1L;
 
-	private GroupsHome gh;
+	private DatabaseHome gh;
 	private List<Groups> group_list;
 
-	@SuppressWarnings("unchecked")
 	public GroupsListModel() {
-		gh = new GroupsHome();
-		group_list = gh.getAll();
+		gh = new DatabaseHome();
+		group_list = gh.getAll(Groups.class);
 
 	}
 
@@ -37,7 +36,7 @@ public class GroupsListModel extends AbstractListModel {
 	public Groups getGroup(int index) {
 		if (group_list == null)
 			return new Groups();
-		return gh.findById(group_list.get(index).getGroupId());
+		return gh.findById(Groups.class, group_list.get(index).getGroupId());
 	}
 
 	public void addGroup(String description) {

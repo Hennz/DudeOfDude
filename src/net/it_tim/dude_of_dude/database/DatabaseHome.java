@@ -9,19 +9,22 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
-
 /**
- * Home object for domain model class Groups.
+ * Home object for domain model class Contacts.
  * 
- * @see net.it_tim.dude_of_dude.database.Groups
+ * @see net.it_tim.dude_of_dude.database.Contacts
  * @author Hibernate Tools
  */
-public class GroupsHome extends DAO {
+public class DatabaseHome extends DAO {
 
-	private static final Log log = LogFactory.getLog(GroupsHome.class);
+	private static final Log log = LogFactory.getLog(DatabaseHome.class);
 
-	public void persist(Groups transientInstance) {
-		log.debug("persisting Groups instance");
+	
+	/**
+	 * збереження об'єкту в базу даних
+	 */
+	public <T> void persist(T transientInstance) {
+		log.debug("persisting Contacts instance");
 		try {
 			begin();
 			getCurrentSession().persist(transientInstance);
@@ -34,8 +37,25 @@ public class GroupsHome extends DAO {
 		}
 	}
 
-	public void attachDirty(Groups instance) {
-		log.debug("attaching dirty Groups instance");
+	/**
+	 * оновлення об'єкту в базі даних
+	 */	
+	public <T> void update(T instance) {
+		log.debug("updating dirty instance");
+		try {
+			begin();
+			getCurrentSession().update(instance);
+			commit();
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			rollback();
+			log.error("update failed", re);
+			throw re;
+		}
+	}
+	
+	public <T> void attachDirty(T instance) {
+		log.debug("attaching dirty Contacts instance");
 		try {
 			begin();
 			getCurrentSession().saveOrUpdate(instance);
@@ -49,8 +69,8 @@ public class GroupsHome extends DAO {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void attachClean(Groups instance) {
-		log.debug("attaching clean Groups instance");
+	public <T> void attachClean(T instance) {
+		log.debug("attaching clean Contacts instance");
 		try {
 			begin();
 			getCurrentSession().lock(instance, LockMode.NONE);
@@ -63,22 +83,8 @@ public class GroupsHome extends DAO {
 		}
 	}
 
-	public void update(Groups instance) {
-		log.debug("updating dirty Groups instance");
-		try {
-			begin();
-			getCurrentSession().update(instance);
-			commit();
-			log.debug("update successful");
-		} catch (RuntimeException re) {
-			rollback();
-			log.error("update failed", re);
-			throw re;
-		}
-	}
-
-	public void delete(Groups persistentInstance) {
-		log.debug("deleting Groups instance");
+	public <T> void delete(T persistentInstance) {
+		log.debug("deleting Contacts instance");
 		try {
 			begin();
 			getCurrentSession().delete(persistentInstance);
@@ -91,12 +97,12 @@ public class GroupsHome extends DAO {
 		}
 	}
 
-	public Groups merge(Groups detachedInstance) {
-		log.debug("merging Groups instance");
+	@SuppressWarnings("unchecked")
+	public <T> T merge(T detachedInstance) {
+		log.debug("merging instance");
 		try {
 			begin();
-			Groups result = (Groups) getCurrentSession()
-					.merge(detachedInstance);
+			T result = (T) getCurrentSession().merge(detachedInstance);
 			commit();
 			log.debug("merge successful");
 			return result;
@@ -107,12 +113,12 @@ public class GroupsHome extends DAO {
 		}
 	}
 
-	public Groups findById(int id) {
-		log.debug("getting Groups instance with id: " + id);
+	@SuppressWarnings("unchecked")
+	public <T> T findById(Class<T> for_class, int id) {
+		log.debug("getting instance with id: " + id);
 		try {
 			begin();
-			Groups instance = (Groups) getCurrentSession().get(
-					"net.it_tim.dude_of_dude.database.Groups", id);
+			T instance = (T) getCurrentSession().get(for_class, id);
 			getCurrentSession().refresh(instance);
 			commit();
 			if (instance == null) {
@@ -129,12 +135,12 @@ public class GroupsHome extends DAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Groups> findByExample(Groups instance) {
-		log.debug("finding Groups instance by example");
+	public <T> List<T> findByExample(Class<T> for_class, Object instance) {
+		log.debug("finding instance by example");
 		try {
 			begin();
-			List<Groups> results = (List<Groups>) getCurrentSession()
-					.createCriteria("net.it_tim.dude_of_dude.database.Groups")
+			List<T> results = (List<T>) getCurrentSession()
+					.createCriteria(for_class)
 					.add(create(instance)).list();
 			commit();
 			log.debug("find by example successful, result size: "
@@ -148,13 +154,12 @@ public class GroupsHome extends DAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List getAll() {
+	public <T> List<T> getAll(Class<T> in_class) {
 		try {
 			begin();
-			List group_list = getCurrentSession().createQuery(
-					"from Groups order by description asc").list();
+			List<T> contact_list = (List<T>) getCurrentSession().createCriteria(in_class).list();
 			commit();
-			return group_list;
+			return contact_list;
 		} catch (RuntimeException re) {
 			rollback();
 			return null;

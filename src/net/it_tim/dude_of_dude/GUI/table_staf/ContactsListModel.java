@@ -8,36 +8,34 @@ import java.util.Set;
 import javax.swing.AbstractListModel;
 
 import net.it_tim.dude_of_dude.database.Contacts;
-import net.it_tim.dude_of_dude.database.ContactsHome;
+import net.it_tim.dude_of_dude.database.DatabaseHome;
 import net.it_tim.dude_of_dude.database.Groups;
-import net.it_tim.dude_of_dude.database.GroupsHome;
 import net.it_tim.dude_of_dude.database.Users;
 
 public class ContactsListModel extends AbstractListModel {
 	private static final long serialVersionUID = 1L;
 
-	private GroupsHome gh;
-	private ContactsHome ch;
+	private DatabaseHome gh;
+	private DatabaseHome ch;
 	private List<Contacts> contact_list;
 	private Groups group;
 	private Users user;
 
 	public ContactsListModel(Groups group) {
-		gh = new GroupsHome();
+		gh = new DatabaseHome();
 		contact_list = new ArrayList<Contacts>(group.getContactses());
 		this.group = group;
 	}
 
 	public ContactsListModel(Users user) {
-		ch = new ContactsHome();
+		ch = new DatabaseHome();
 		contact_list = new ArrayList<Contacts>(user.getContactses());
 		this.user = user;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ContactsListModel() {
-		ch = new ContactsHome();
-		contact_list = ch.getAll();
+		ch = new DatabaseHome();
+		contact_list = ch.getAll(Contacts.class);
 	}
 
 	@Override
