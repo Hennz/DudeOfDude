@@ -19,6 +19,10 @@ public class DatabaseHome extends DAO {
 
 	private static final Log log = LogFactory.getLog(DatabaseHome.class);
 
+	
+	/**
+	 * збереження об'єкту в базу даних
+	 */
 	public <T> void persist(T transientInstance) {
 		log.debug("persisting Contacts instance");
 		try {
@@ -33,6 +37,9 @@ public class DatabaseHome extends DAO {
 		}
 	}
 
+	/**
+	 * оновлення об'єкту в базі даних
+	 */	
 	public <T> void update(T instance) {
 		log.debug("updating dirty instance");
 		try {

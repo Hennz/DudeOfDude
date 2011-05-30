@@ -30,6 +30,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 import net.it_tim.dude_of_dude.GUI.table_staf.*;
+import net.it_tim.dude_of_dude.database.DAO;
 import net.it_tim.dude_of_dude.rmi.ServerControl;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -105,12 +106,12 @@ public class mainWnd extends JFrame {
 				for (int i = 0; i < col_count; i++) {
 					dodConfig.setProperty("table.column.width."+new Integer(i).toString(), table.getColumnModel().getColumn(i).getWidth());
 				}
-				
 				try {
 					dodConfig.save();
 				} catch (ConfigurationException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
+				DAO.close();
 			}
 		});
 		
