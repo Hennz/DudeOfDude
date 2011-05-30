@@ -16,7 +16,6 @@ public class Md5Hash {
 			BigInteger bigInt = new BigInteger(1, digest);
 			hashtext = bigInt.toString(16);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		while (hashtext.length() < 32) {

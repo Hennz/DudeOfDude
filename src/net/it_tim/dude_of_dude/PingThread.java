@@ -51,7 +51,7 @@ public class PingThread extends TimerTask {
 				down_count++;
 				System.out
 						.println(down_count
-								+ " down! unreported. Aval. downs: "
+								+ " проблем пропущено. Доступно \"хибних\" тривог: "
 								+ host.getDownCount() + " for "
 								+ host.getDescription());
 				return;
