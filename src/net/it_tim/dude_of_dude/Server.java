@@ -60,7 +60,7 @@ public class Server {
 				System.exit(0);
 			}
 		} else {
-			Tools.coloredPrint("!!! Windows not supported... yet !!!");
+			Tools.coloredPrint("!!! Windows не підтримується... покищо :) !!!");
 			System.exit(0);
 		}
 
@@ -102,11 +102,12 @@ public class Server {
 					Timer timer = new Timer();
 					timer.schedule(ping_thread, 0, host.getIntervalMs());
 					timer_list.add(timer);
+					Thread.sleep(100);
 					thread_count++;
 				}
 			}
 			isStarted = true;
-			System.out.println("Thread's running: "+thread_count);
+			System.out.println("Запущено потоків: " + thread_count);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -123,7 +124,7 @@ public class Server {
 			} catch (ConfigurationException e2) {
 				e2.printStackTrace();
 			}
-			
+
 			sci = new ServerControlImp();
 			ServerControl stub = (ServerControl) UnicastRemoteObject
 					.exportObject(sci);
@@ -176,11 +177,11 @@ public class Server {
 		timer_list.clear();
 		isStarted = false;
 	}
-	
+
 	public static void serverStart() {
 		initPingThreads();
 	}
-	
+
 	public static boolean isStarted() {
 		return isStarted;
 	}
