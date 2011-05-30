@@ -160,7 +160,7 @@ public class Server {
 				} catch (InterruptedException e) {
 					// I don't care
 				}
-				Tools.coloredPrint(Tools.COLOR_RED, "Done!", Tools.COLOR_WHITE);
+				Tools.coloredPrint(Tools.COLOR_RED, "Сервер вимкнено!", Tools.COLOR_WHITE);
 				System.exit(0);
 			}
 
@@ -168,7 +168,7 @@ public class Server {
 	}
 
 	public static void serverStop() {
-		Tools.coloredPrint(Tools.COLOR_RED, "Stopping server",
+		Tools.coloredPrint(Tools.COLOR_RED, "Зупиняю сервер",
 				Tools.COLOR_WHITE);
 		for (Timer timer : timer_list) {
 			timer.cancel();
