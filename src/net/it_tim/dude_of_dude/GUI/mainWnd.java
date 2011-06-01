@@ -65,7 +65,6 @@ public class mainWnd extends JFrame {
 			JOptionPane.showMessageDialog(null, e2.getMessage());
 			System.exit(0);
 		}
-
 		try {
 			Registry registry = LocateRegistry.getRegistry(rmi_host, rmi_port.intValue());
 			server = (ServerControl) registry
@@ -77,12 +76,15 @@ public class mainWnd extends JFrame {
 			}
 		} catch (AccessException e1) {
 			mnServerControl.setVisible(false);
+			e1.printStackTrace();
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 		} catch (RemoteException e1) {
 			mnServerControl.setVisible(false);
+			e1.printStackTrace();
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 		} catch (NotBoundException e1) {
 			mnServerControl.setVisible(false);
+			e1.printStackTrace();
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 		}
 		
