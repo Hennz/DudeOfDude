@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,19 +26,6 @@ public class Login extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField loginField;
 	private JPasswordField pwdField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Login dialog = new Login();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -100,6 +88,9 @@ public class Login extends JDialog {
 							dispose();
 							mainWnd mainWindow = new mainWnd();
 							mainWindow.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "Wrong password!");
+							pwdField.setText("");
 						}
 					}
 				});

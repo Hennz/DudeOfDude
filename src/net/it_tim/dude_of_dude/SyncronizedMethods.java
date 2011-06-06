@@ -54,7 +54,9 @@ public class SyncronizedMethods {
 				MailSender.postMail(recipients.toArray(new String[recipients
 						.size()]), host.getDescription(), message,
 						"dude_of_dude@meta.ua");
+				System.out.println("send mail for" + host.getDescription());
 			} catch (MessagingException mex) {
+				mex.printStackTrace();
 			}
 		}
 	}

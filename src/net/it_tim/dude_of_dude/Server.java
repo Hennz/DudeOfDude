@@ -158,7 +158,7 @@ public class Server {
 				try {
 					sleep(2000);
 				} catch (InterruptedException e) {
-					// I don't care
+
 				}
 				Tools.coloredPrint(Tools.COLOR_RED, "Сервер вимкнено!", Tools.COLOR_WHITE);
 				System.exit(0);

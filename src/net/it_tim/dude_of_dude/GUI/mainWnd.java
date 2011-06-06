@@ -15,6 +15,8 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -43,8 +45,11 @@ public class mainWnd extends JFrame {
 	private ServerControl server;
 	private JMenuItem mntmStartServer;
 	private JMenuItem mntmStopServer;
+	private JMenuItem mntmShutdown;
 	private JMenu mnServerControl;
 	private PropertiesConfiguration dodConfig;
+	private String rmi_host = "127.0.0.1";
+	private Integer rmi_port = new Integer(2005);
 
 	/**
 	 * Create the frame.
@@ -54,9 +59,7 @@ public class mainWnd extends JFrame {
 		mnServerControl = new JMenu("Server Control");
 		mntmStartServer = new JMenuItem("Start");
 		mntmStopServer = new JMenuItem("Stop");
-		
-		String rmi_host = "127.0.0.1";
-		Integer rmi_port = new Integer(2005);
+
 		try {
 			dodConfig = new PropertiesConfiguration("dod.properties");
 			rmi_host = dodConfig.getString("client.rmi.host");
@@ -65,28 +68,10 @@ public class mainWnd extends JFrame {
 			JOptionPane.showMessageDialog(null, e2.getMessage());
 			System.exit(0);
 		}
-		try {
-			Registry registry = LocateRegistry.getRegistry(rmi_host, rmi_port.intValue());
-			server = (ServerControl) registry
-					.lookup("ServerControl");
-			if (server.isStarted()) {
-				mntmStartServer.setEnabled(false);
-			} else {
-				mntmStopServer.setEnabled(false);
-			}
-		} catch (AccessException e1) {
-			mnServerControl.setVisible(false);
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(null, e1.getMessage());
-		} catch (RemoteException e1) {
-			mnServerControl.setVisible(false);
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(null, e1.getMessage());
-		} catch (NotBoundException e1) {
-			mnServerControl.setVisible(false);
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(null, e1.getMessage());
-		}
+
+		rmiConnect();
+		Timer timer = new Timer();
+		timer.schedule(timerTask, 0, 5000);
 		
 		setMinimumSize(new Dimension(640, 320));
 		setIconImage(Toolkit
@@ -219,7 +204,7 @@ public class mainWnd extends JFrame {
 		});
 		mnServerControl.add(mntmStopServer);
 		
-		JMenuItem mntmShutdown = new JMenuItem("Shutdown");
+		mntmShutdown = new JMenuItem("Shutdown");
 		mntmShutdown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -377,4 +362,42 @@ public class mainWnd extends JFrame {
 		table.getColumnModel().getColumn(4).setMaxWidth(30);
 		table.getColumnModel().getColumn(4).setPreferredWidth(30);
 	}
+	
+	private void rmiConnect() {
+		try {
+			Registry registry = LocateRegistry.getRegistry(rmi_host, rmi_port.intValue());
+			server = (ServerControl) registry
+					.lookup("ServerControl");
+		} catch (AccessException e1) {
+			mnServerControl.setVisible(false);
+		} catch (RemoteException e1) {
+			mnServerControl.setVisible(false);
+		} catch (NotBoundException e1) {
+			mnServerControl.setVisible(false);
+		}
+	}
+	
+	TimerTask timerTask = new TimerTask() {
+		
+		@Override
+		public void run() {
+			if (server != null) {
+				try {
+					if (server.isStarted()) {
+						mnServerControl.setVisible(true);
+						mntmStartServer.setEnabled(false);
+						mntmStopServer.setEnabled(true);
+					} else {
+						mnServerControl.setVisible(true);
+						mntmStopServer.setEnabled(false);
+						mntmStartServer.setEnabled(true);
+					}
+				} catch (RemoteException e) {
+					rmiConnect();
+				}
+			} else {
+				rmiConnect();
+			}
+		}
+	};
 }
