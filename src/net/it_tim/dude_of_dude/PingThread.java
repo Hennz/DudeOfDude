@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.TimerTask;
 
 import net.it_tim.dude_of_dude.database.Hosts;
-import net.it_tim.dude_of_dude.database.PingHistory;
-import net.it_tim.dude_of_dude.database.PingHistoryHome;
 import net.it_tim.dude_of_dude.static_constants.Tools;
 
 public class PingThread extends TimerTask {
@@ -13,21 +11,13 @@ public class PingThread extends TimerTask {
 	private Hosts host;
 	private boolean status = false;
 	private boolean packetLoss = false;
-	private PingHistoryHome phh = new PingHistoryHome();
-	private PingHistory pinghistory = new PingHistory();
 	private boolean last_status = true;
 	private int down_count = 0;
 
 	public PingThread(Hosts host) {
 		super();
 		this.host = host;
-
-		pinghistory = phh.getLastState(host);
-		if (pinghistory != null) {
-			last_status = pinghistory.getStatus().booleanValue();
-		} else {
-			last_status = true;
-		}
+		last_status = this.host.getLastStatus();
 	}
 
 	@Override
@@ -58,9 +48,8 @@ public class PingThread extends TimerTask {
 			}
 
 			Integer timeOut = ping.getTimeout();
-			SyncronizedMethods.log(host, new Boolean(status), timeOut);
 			down_count = 0;
-
+			
 			if (status != last_status) {
 				if (status) {
 					last_status = true;
@@ -69,8 +58,10 @@ public class PingThread extends TimerTask {
 							Tools.getDateTime());
 					formatedPrint(Tools.SVC_UP, host.getDescription(), host
 							.getIpAdres(), timeOut, Tools.getDateTime());
+					
 					SyncronizedMethods.notificate(host, status);
 					SyncronizedMethods.sendMail(host, message);
+					SyncronizedMethods.persistHost(host, status);
 				} else {
 					last_status = false;
 					String message = new String();
@@ -88,8 +79,10 @@ public class PingThread extends TimerTask {
 						formatedPrint(Tools.SVC_DOWN, host.getDescription(),
 								host.getIpAdres(), timeOut, Tools.getDateTime());
 					}
+					
 					SyncronizedMethods.notificate(host, status);
 					SyncronizedMethods.sendMail(host, message);
+					SyncronizedMethods.persistHost(host, status);
 				}
 			}
 

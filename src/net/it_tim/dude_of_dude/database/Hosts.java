@@ -17,12 +17,11 @@ public class Hosts implements java.io.Serializable {
 	private Long timeoutMs;
 	private Long intervalMs;
 	private Boolean toPing;
+	private Boolean lastStatus;
 	private short packetLoss;
 	private short downCount;
-	private Set<NotificatioinsHistory> notificatioinsHistories = new HashSet<NotificatioinsHistory>(
-			0);
+	private Set<NotificatioinsHistory> notificatioinsHistories = new HashSet<NotificatioinsHistory>(0);
 	private Set<Groups> groupses = new HashSet<Groups>(0);
-	private Set<PingHistory> pingHistories = new HashSet<PingHistory>(0);
 
 	public Hosts() {
 	}
@@ -34,10 +33,10 @@ public class Hosts implements java.io.Serializable {
 	}
 
 	public Hosts(int hostId, String ipAdres, String description,
-			Long timeoutMs, Long intervalMs, Boolean toPing, short packetLoss,
+			Long timeoutMs, Long intervalMs, Boolean toPing, Boolean lastStatus,short packetLoss,
 			short downCount,
 			Set<NotificatioinsHistory> notificatioinsHistories,
-			Set<Groups> groupses, Set<PingHistory> pingHistories) {
+			Set<Groups> groupses) {
 		this.hostId = hostId;
 		this.ipAdres = ipAdres;
 		this.description = description;
@@ -48,7 +47,7 @@ public class Hosts implements java.io.Serializable {
 		this.downCount = downCount;
 		this.notificatioinsHistories = notificatioinsHistories;
 		this.groupses = groupses;
-		this.pingHistories = pingHistories;
+		this.setLastStatus(lastStatus);
 	}
 
 	public int getHostId() {
@@ -132,12 +131,12 @@ public class Hosts implements java.io.Serializable {
 		this.groupses = groupses;
 	}
 
-	public Set<PingHistory> getPingHistories() {
-		return this.pingHistories;
+	public void setLastStatus(Boolean lastStatus) {
+		this.lastStatus = lastStatus;
 	}
 
-	public void setPingHistories(Set<PingHistory> pingHistories) {
-		this.pingHistories = pingHistories;
+	public Boolean getLastStatus() {
+		return lastStatus;
 	}
 
 }

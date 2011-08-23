@@ -25,6 +25,9 @@
         <property name="toPing" type="java.lang.Boolean">
             <column name="to_ping" />
         </property>
+        <property name="lastStatus" type="java.lang.Boolean">
+            <column name="last_status" />
+        </property>
         <property name="packetLoss" type="short">
             <column name="packet_loss" not-null="true" />
         </property>
@@ -44,12 +47,6 @@
             <many-to-many entity-name="net.it_tim.dude_of_dude.database.Groups">
                 <column name="group_id" not-null="true" />
             </many-to-many>
-        </set>
-        <set name="pingHistories" table="ping_history" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="host_id" not-null="true" />
-            </key>
-            <one-to-many class="net.it_tim.dude_of_dude.database.PingHistory" />
         </set>
     </class>
 </hibernate-mapping>

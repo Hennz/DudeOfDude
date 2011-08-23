@@ -15,11 +15,11 @@ public class HostsTableModel extends AbstractTableModel {
 	private HostsHome hh;
 
 	String headers[] = { "IP", "Description", "Time out in ms",
-			"Interval in ms", "To ping?", "Packet loss", "Down count" };
+			"Interval in ms", "To ping?", "Packet loss", "Down count" , "Last Status"};
 
 	@SuppressWarnings("unchecked")
 	Class columnClasses[] = { String.class, String.class, Long.class,
-			Long.class, Boolean.class, Short.class, Short.class };
+			Long.class, Boolean.class, Short.class, Short.class, Boolean.class };
 
 	@SuppressWarnings("unchecked")
 	public HostsTableModel() {
@@ -73,6 +73,8 @@ public class HostsTableModel extends AbstractTableModel {
 			return list.get(rowIndex).getPacketLoss();
 		case 6:
 			return list.get(rowIndex).getDownCount();
+		case 7: 
+			return list.get(rowIndex).getLastStatus();
 		}
 
 		return null;
@@ -80,6 +82,9 @@ public class HostsTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (columnIndex == 7) {
+			return false;
+		}
 		return true;
 	}
 
@@ -114,6 +119,10 @@ public class HostsTableModel extends AbstractTableModel {
 			if (arg0 instanceof Short)
 				list.get(rowIndex).setDownCount((Short) arg0);
 			break;
+		case 7:
+			if (arg0 instanceof Boolean)
+				list.get(rowIndex).setLastStatus((Boolean) arg0);
+			break;
 		}
 
 		try {
@@ -135,7 +144,7 @@ public class HostsTableModel extends AbstractTableModel {
 		host.setToPing(false);
 		host.setPacketLoss(new Short((short) 5));
 		host.setDownCount(new Short((short) 3));
-
+		host.setLastStatus(new Boolean(true));
 		try {
 			list.add(host);
 			hh.persist(host);

@@ -10,24 +10,20 @@ import javax.mail.MessagingException;
 import net.it_tim.dude_of_dude.database.Contacts;
 import net.it_tim.dude_of_dude.database.Groups;
 import net.it_tim.dude_of_dude.database.Hosts;
+import net.it_tim.dude_of_dude.database.HostsHome;
 import net.it_tim.dude_of_dude.database.NotificatioinsHistory;
 import net.it_tim.dude_of_dude.database.NotificatioinsHistoryHome;
-import net.it_tim.dude_of_dude.database.PingHistory;
-import net.it_tim.dude_of_dude.database.PingHistoryHome;
 
 public class SyncronizedMethods {
-	public static synchronized void log(Hosts host, Boolean status,
-			Integer timeOut) {
-		PingHistory ph = new PingHistory();
-		ph.setHosts(host);
-		PingHistoryHome phh = new PingHistoryHome();
-
-		ph.setStatus(status);
-		ph.setStamp(new Date());
-		ph.setTimeout(timeOut);
-		phh.log_ping(ph);
+	
+	public static synchronized void persistHost(Hosts host, Boolean status) {
+		Hosts stat = new Hosts();
+		HostsHome hh = new HostsHome();
+		stat = hh.findById(Hosts.class, host.getHostId());
+		stat.setLastStatus(status);
+		hh.update(stat);
 	}
-
+	
 	public static synchronized void notificate(Hosts host, Boolean status) {
 		NotificatioinsHistory nh = new NotificatioinsHistory();
 		nh.setHosts(host);

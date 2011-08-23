@@ -180,13 +180,21 @@ public class mainWnd extends JFrame {
 		
 		mntmStartServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					server.start();
+					Thread start = new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+							server.start();
+							} catch (RemoteException e1) {
+								JOptionPane.showMessageDialog(null, e1.getMessage());
+							}
+						}
+					});
+					start.start();
 					mntmStartServer.setEnabled(false);
 					mntmStopServer.setEnabled(true);
-				} catch (RemoteException e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage());
-				}
+				
 			}
 		});
 		mnServerControl.add(mntmStartServer);
@@ -225,7 +233,7 @@ public class mainWnd extends JFrame {
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "\"DudeOfDude\" Version 0.0.3 rc1 (c) Copyright Palamarchuk Maksym 2011. All rights reserved.");
+				JOptionPane.showMessageDialog(null, "\"DudeOfDude\" Version 0.0.4 beta (c) Copyright Palamarchuk Maksym 2011. All rights reserved.");
 			}
 		});
 		mnHelp.add(mntmAbout);
@@ -235,6 +243,7 @@ public class mainWnd extends JFrame {
 		
 		hostTableModel = new HostsTableModel();
 		table = new JTable(hostTableModel);
+		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setCellSelectionEnabled(true);
 		table.setShowVerticalLines(true);

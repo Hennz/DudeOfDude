@@ -89,7 +89,7 @@ public class Login extends JDialog {
 							mainWnd mainWindow = new mainWnd();
 							mainWindow.setVisible(true);
 						} else {
-							JOptionPane.showMessageDialog(null, "Wrong password!");
+							JOptionPane.showMessageDialog(null, "Wrong login or password!");
 							pwdField.setText("");
 						}
 					}
@@ -110,5 +110,4 @@ public class Login extends JDialog {
 			}
 		}
 	}
-
 }
